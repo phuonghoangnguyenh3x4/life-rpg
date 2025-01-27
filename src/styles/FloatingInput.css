@@ -1,0 +1,21 @@
+.custom-input {
+  background-color: var(--input-color);
+  width: 25rem;
+  border: none;
+}
+
+.custom-input:focus {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  box-shadow: 0 0 0 0.1rem var(--accent-color) !important;
+  outline: none;
+}
+
+.form-floating > input + label:after {
+  background-color: var(--primary-color) !important;
+}
+
+.form-floating > .custom-input:focus ~ label,
+.form-floating > .custom-input:not(:placeholder-shown) ~ label {
+  color: var(--secondary-color);
+}

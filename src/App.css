@@ -1,6 +1,7 @@
 :root {
   --primary-color: #181A1B;
   --secondary-color: white;
+  --input-color: #161819;
   --accent-color: black;
   --button-border-radius: 9px;
 }

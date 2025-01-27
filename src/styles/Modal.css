@@ -1,0 +1,49 @@
+.custom-modal-content {
+  background-color: var(--primary-color);
+}
+
+.custom-modal {
+  color: var(--secondary-color);
+}
+
+.custom-modal-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.custom-modal-title {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.btn-close-custom {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 0;
+  height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-close-custom:focus {
+  box-shadow: 0 0 0 0 !important;
+}
+
+.modal-button {
+  background-color: var(--accent-color);
+  color: var(--secondary-color);
+  border: none;
+  border-radius: var(--button-border-radius);
+  font-weight: bold;
+  width: 25rem;
+  height: 4rem
+}
+
+.modal-button:hover {
+  background-color: var(--accent-color);
+  color: var(--secondary-color);
+}
