@@ -1,0 +1,60 @@
+:root {
+  --primary-color: #181A1B;
+  --secondary-color: white;
+  --accent-color: black;
+  --button-border-radius: 9px;
+}
+
+.brand {
+  color: var(--secondary-color);
+}
+
+h1 {
+  color: var(--secondary-color);
+}
+
+p {
+  color: var(--secondary-color);
+}
+
+.hero-left {
+  max-width: 450px;
+}
+
+.background-primary {
+  background-color: #181A1B;
+}
+
+.accent-button {
+  background-color: var(--accent-color);
+  color: var(--secondary-color);
+  border: none;
+  border-radius: var(--button-border-radius);
+  width: 110px;
+}
+
+.accent-button:hover {
+  background-color: var(--accent-color);
+  color: var(--secondary-color);
+}
+
+.accent-outline-button {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
+  border-radius: var(--button-border-radius);
+  width: 110px;
+}
+
+.accent-outline-button:hover {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border: 2px solid var(--secondary-color);
+}
+
+
+@media (max-width: 400px) {
+  .intro {
+    display: none;
+  }
+}
