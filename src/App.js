@@ -9,7 +9,7 @@ function App() {
     <div className="app background-primary" style={{ height: "100vh" }}>
       <NavbarComponent />
       <Hero />
-      <RegisterModal />
+      <RegisterModal/>
       <LoginModal />
     </div>
   );

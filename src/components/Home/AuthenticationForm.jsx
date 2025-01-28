@@ -1,10 +1,25 @@
 import FloatingInput from "../FloatingInput";
+import $ from "jquery";
 
-function GetStartedButton() {
+function GetStartedButton({ screen }) {
+  const handleRetype = (target) => {
+    $(target).removeClass("is-invalid");
+  };
+
   return (
     <div id="authenticationForm">
-      <FloatingInput id="emailInput" type="email" labelText="EMAIL" />
-      <FloatingInput id="passwordInput" type="password" labelText="PASSWORD" />
+      <FloatingInput
+        id={`emailInput-${screen}`}
+        type="email"
+        labelText="EMAIL"
+        onInputChange={((e) => handleRetype(e.target))}
+      />
+      <FloatingInput
+        id={`passwordInput-${screen}`}
+        type="password"
+        labelText="PASSWORD"
+        onInputChange={((e) => handleRetype(e.target))}
+      />
     </div>
   );
 }
