@@ -1,37 +1,43 @@
 import AuthenticationForm from "./AuthenticationForm";
 import $ from "jquery";
+import { useAuth } from '../../context/AuthContext';
+import axios from 'axios';
 
 function LoginModal() {
   const apiURL = process.env.REACT_APP_API_URL;
+  const {login} = useAuth();
 
-  const login = async (email, password) => {
+  const sendLoginRequest = async (email, password) => {
     const formData = new FormData();
     formData.append("email", email);
     formData.append("password", password);
     
     try {
-      const response = await fetch(`${apiURL}/login`, {
-        method: 'POST',
-        body: formData,
+      const response = await axios.post(`${apiURL}/login`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        withCredentials: true 
       });
-
-
-      const data = await response.json();
-      if (!response.ok) {
+      const data = response.data;
+      console.log(response);
+      if (response.status !== 200) {
         throw new Error(data.error);
       }
-
-      console.log(data.message)
+      console.log(data)
+      return true;
     } catch (error) {
       console.error(error);
+      return false;
     }
   }
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     let email = $("#emailInput-login");
     let password = $("#passwordInput-login");
 
-    login(email.val(), password.val());
+    let success = await sendLoginRequest(email.val(), password.val());
+    if (success) login();
   };
 
   return (
