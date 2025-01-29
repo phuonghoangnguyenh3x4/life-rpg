@@ -4,9 +4,29 @@ import $ from "jquery";
 import registerValidationSchema from "../../validation/RegisterValidationSchema";
 
 function RegisterModal() {
-  const createAccount = async () => {
-    console.log('Account created successfully!');
-  }
+  const apiURL = process.env.REACT_APP_API_URL;
+
+  const createAccount = async (email, password) => {
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("password", password);
+    try {
+      const response = await fetch(`${apiURL}/create-account`, {
+        method: 'POST',
+        body: formData,
+      });
+
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error);
+      }
+
+      console.log(data.message)
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleRegister = async () => {
     let email = $("#emailInput-register");
@@ -14,15 +34,14 @@ function RegisterModal() {
     let passwordConfirmation = $("#passwordConfirmationInput-register");
 
     let input = {
-      'email': email.val(),
-      'password': password.val(),
-      'passwordConfirmation': passwordConfirmation.val()
-    }
+      email: email.val(),
+      password: password.val(),
+      passwordConfirmation: passwordConfirmation.val(),
+    };
 
     try {
       await registerValidationSchema.validate(input, { abortEarly: false });
-      createAccount();
-
+      createAccount(input.email, input.password);
     } catch (ValidationErrors) {
       ValidationErrors.inner.forEach((error) => {
         let elementId = `${error.path}Input-register`;
