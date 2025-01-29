@@ -6,8 +6,9 @@ import registerValidationSchema from "../../validation/RegisterValidationSchema"
 function RegisterModal() {
   const apiURL = process.env.REACT_APP_API_URL;
 
-  const createAccount = async (email, password) => {
+  const createAccount = async (name, email, password) => {
     const formData = new FormData();
+    formData.append("name", name);
     formData.append("email", email);
     formData.append("password", password);
     try {
@@ -29,11 +30,13 @@ function RegisterModal() {
   };
 
   const handleRegister = async () => {
+    let name = $("#nameInput-register");
     let email = $("#emailInput-register");
     let password = $("#passwordInput-register");
     let passwordConfirmation = $("#passwordConfirmationInput-register");
 
     let input = {
+      name: name.val(),
       email: email.val(),
       password: password.val(),
       passwordConfirmation: passwordConfirmation.val(),
@@ -41,7 +44,7 @@ function RegisterModal() {
 
     try {
       await registerValidationSchema.validate(input, { abortEarly: false });
-      createAccount(input.email, input.password);
+      createAccount(input.name, input.email, input.password);
     } catch (ValidationErrors) {
       ValidationErrors.inner.forEach((error) => {
         let elementId = `${error.path}Input-register`;
@@ -53,9 +56,9 @@ function RegisterModal() {
     }
   };
 
-  const handleConfirmationRetype = () => {
-    let confirmedPassword = $("#passwordConfirmationInput-register");
-    confirmedPassword.removeClass("is-invalid");
+  const handleRetype = (target) => {
+    let inputTarget = $(target);
+    inputTarget.removeClass("is-invalid");
   };
 
   return (
@@ -76,12 +79,18 @@ function RegisterModal() {
           </div>
           <div className="modal-body text-center d-flex justify-content-center align-items-center">
             <div id="registerForm">
+              <FloatingInput
+                id="nameInput-register"
+                type="text"
+                labelText="NAME"
+                onInputChange={(e) => {handleRetype(e.target)}}
+              />
               <AuthenticationForm screen="register" />
               <FloatingInput
                 id="passwordConfirmationInput-register"
                 type="password"
                 labelText="CONFIRMATION"
-                onInputChange={handleConfirmationRetype}
+                onInputChange={(e) => {handleRetype(e.target)}}
               />
             </div>
           </div>

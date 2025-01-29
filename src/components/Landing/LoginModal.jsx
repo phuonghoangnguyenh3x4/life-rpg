@@ -8,7 +8,7 @@ function LoginModal() {
     const formData = new FormData();
     formData.append("email", email);
     formData.append("password", password);
-    console.log(password);
+    
     try {
       const response = await fetch(`${apiURL}/login`, {
         method: 'POST',
