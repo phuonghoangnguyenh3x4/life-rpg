@@ -1,0 +1,36 @@
+.custom-navlink {
+  color: var(--secondary-color);
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 12px;
+}
+
+.custom-navlink.active {
+  border-bottom: 3px solid var(--nav-link-color);
+}
+
+.custom-navlink:hover {
+  background-color: var(--nav-link-color);
+  color: var(--secondary-color);
+}
+
+.custom-navbar {
+  z-index: 1030;
+  padding: 0;
+  background-color: var(--nav-background-color);
+}
+
+.custom-navbar-icon {
+    margin-right: 1rem;
+  fill: var(--secondary-color);
+  stroke: var(--secondary-color);
+  stroke-width: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.custom-popover {
+  z-index: 1020;
+  max-height: 100px;
+  max-width: 100px;
+}

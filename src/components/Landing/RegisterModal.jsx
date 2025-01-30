@@ -2,9 +2,12 @@ import AuthenticationForm from "./AuthenticationForm";
 import FloatingInput from "../FloatingInput";
 import $ from "jquery";
 import registerValidationSchema from "../../validation/RegisterValidationSchema";
+import { useAuth } from '../../context/AuthContext';
+import axios from 'axios';
 
 function RegisterModal() {
   const apiURL = process.env.REACT_APP_API_URL;
+  const {login} = useAuth();
 
   const createAccount = async (name, email, password) => {
     const formData = new FormData();
@@ -12,21 +15,24 @@ function RegisterModal() {
     formData.append("email", email);
     formData.append("password", password);
     try {
-      const response = await fetch(`${apiURL}/create-account`, {
-        method: 'POST',
-        body: formData,
+      const response = await axios.post(`${apiURL}/create-account`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        withCredentials: true 
       });
 
-
-      const data = await response.json();
-      if (!response.ok) {
+      const data = response.data;
+      console.log(response);
+      if (response.status !== 200) {
         throw new Error(data.error);
       }
-
-      console.log(data.message)
+      console.log(data);
+      return true;
     } catch (error) {
       console.error(error);
     }
+    return false;
   };
 
   const handleRegister = async () => {
@@ -44,7 +50,8 @@ function RegisterModal() {
 
     try {
       await registerValidationSchema.validate(input, { abortEarly: false });
-      createAccount(input.name, input.email, input.password);
+      let success = await createAccount(input.name, input.email, input.password);
+      if (success) login();
     } catch (ValidationErrors) {
       ValidationErrors.inner.forEach((error) => {
         let elementId = `${error.path}Input-register`;
