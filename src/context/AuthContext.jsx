@@ -24,12 +24,7 @@ export function AuthProvider({ children }) {
     checkAuthStatus(); // Call checkAuthStatus after login
   };
 
-  const logout = async () => {
-    try {
-      await axios.post('/logout', {}, { withCredentials: true }); // Optionally, implement a logout endpoint
-    } catch (error) {
-      console.error('Error logging out:', error);
-    }
+  const logout = () => {
     setIsAuthenticated(false);
   };
 
