@@ -23,7 +23,12 @@ function Home() {
   }
 
   useEffect(() => {
+    document.body.style.overflow = 'auto';
     hideAllModals();
+
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, []);
 
   return (
