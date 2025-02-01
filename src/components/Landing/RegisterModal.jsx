@@ -9,6 +9,17 @@ function RegisterModal() {
   const apiURL = process.env.REACT_APP_API_URL;
   const {login} = useAuth();
 
+  const showErrorToast = (delay=4000) => {
+    let toast = $("#custom-toast-register");
+    toast.show();
+    toast.addClass('fade-out'); // Add fade-out class
+
+    setTimeout(() => {
+      toast.hide();
+      toast.removeClass('fade-out'); // Remove fade-out class
+    }, delay);
+  }
+
   const createAccount = async (name, email, password) => {
     const formData = new FormData();
     formData.append("name", name);
@@ -30,9 +41,9 @@ function RegisterModal() {
       console.log(data);
       return true;
     } catch (error) {
-      console.error(error);
+      console.error(error.response.data);
+      return false;
     }
-    return false;
   };
 
   const handleRegister = async () => {
@@ -52,6 +63,7 @@ function RegisterModal() {
       await registerValidationSchema.validate(input, { abortEarly: false });
       let success = await createAccount(input.name, input.email, input.password);
       if (success) login();
+      else showErrorToast();
     } catch (ValidationErrors) {
       ValidationErrors.inner.forEach((error) => {
         let elementId = `${error.path}Input-register`;
@@ -109,6 +121,19 @@ function RegisterModal() {
             >
               Create Account
             </button>
+          </div>
+        </div>
+      </div>
+      <div className="toast-container custom-toast-container">
+        <div
+          id="custom-toast-register"
+          className="toast align-items-center text-bg-danger border-0"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
+          <div className="toast-body">
+            Email already exist
           </div>
         </div>
       </div>

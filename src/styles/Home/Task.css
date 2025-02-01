@@ -1,0 +1,10 @@
+.task-difficulty {
+    width: fit-content;
+    padding: 0.2em;
+    border-radius: 0.25em;
+}
+
+.task-name {
+    margin-bottom: 0.25em;
+}
+

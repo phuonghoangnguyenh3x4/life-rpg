@@ -7,8 +7,8 @@ function LoginModal() {
   const apiURL = process.env.REACT_APP_API_URL;
   const { login } = useAuth();
 
-  const showErrorToast = (delay=3000) => {
-    let toast = $("#custom-toast");
+  const showErrorToast = (delay=4000) => {
+    let toast = $("#custom-toast-login");
     toast.show();
     toast.addClass('fade-out'); // Add fade-out class
 
@@ -80,9 +80,9 @@ function LoginModal() {
           </div>
         </div>
       </div>
-      <div className="toast-container top-50 start-50 translate-middle-x">
+      <div className="toast-container custom-toast-container">
         <div
-          id="custom-toast"
+          id="custom-toast-login"
           className="toast align-items-center text-bg-danger border-0"
           role="alert"
           aria-live="assertive"
