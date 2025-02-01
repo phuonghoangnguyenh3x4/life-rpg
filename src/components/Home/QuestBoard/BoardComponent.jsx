@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import DroppableColumn from "./DroppableColumn";
+import axios from "axios";
 import "../../../styles/Home/Board.css";
 
 const BoardComponent = ({ tasks, columns, columnOrder }) => {
   const [data, setData] = useState({
     tasks: {},
     columns: {},
-    columnOrder: []
+    columnOrder: [],
   });
 
   useEffect(() => {
     setData({
       tasks: tasks,
       columns: columns,
-      columnOrder: columnOrder
+      columnOrder: columnOrder,
     });
   }, [tasks, columns, columnOrder]);
 
-  const onDragEnd = (result) => {
+  const onDragEnd = async (result) => {
     console.log("Drag Ended", result);
 
     const { destination, source, draggableId } = result;
@@ -56,6 +57,7 @@ const BoardComponent = ({ tasks, columns, columnOrder }) => {
       };
 
       setData(newState);
+      await changeTaskStatus(draggableId, destination.droppableId);
       return;
     }
 
@@ -84,32 +86,38 @@ const BoardComponent = ({ tasks, columns, columnOrder }) => {
     };
 
     setData(newState);
+    await changeTaskStatus(draggableId, destination.droppableId);
+  };
+
+  const changeTaskStatus = async (taskId, newStatus) => {
+    const apiURL = process.env.REACT_APP_API_URL;
+    const formData = new FormData();
+    formData.append("id", taskId);
+    formData.append("status", newStatus);
+
+    try {
+      const response = await axios.post(`${apiURL}/change-quest-status`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        withCredentials: true,
+      });
+
+      const data = response.data;
+      console.log(response);
+      if (response.status !== 200) {
+        throw new Error(data.error);
+      }
+      console.log(data);
+      return true;
+    } catch (error) {
+      console.error(error.response.data);
+      return false;
+    }
   };
 
   const addQuest = (columnId) => {
-    // const newTaskId = `task-${Object.keys(data.tasks).length + 1}`;
-    // const newTask = { id: newTaskId, name: "New Task" };
-
-    // const newTasks = {
-    //   ...data.tasks,
-    //   [newTaskId]: newTask,
-    // };
-
-    // const newColumn = {
-    //   ...data.columns[columnId],
-    //   taskIds: [...data.columns[columnId].taskIds, newTaskId],
-    // };
-
-    // const newState = {
-    //   ...data,
-    //   tasks: newTasks,
-    //   columns: {
-    //     ...data.columns,
-    //     [columnId]: newColumn,
-    //   },
-    // };
-
-    // setData(newState);
+    // Add new quest logic
   };
 
   return (
@@ -119,7 +127,12 @@ const BoardComponent = ({ tasks, columns, columnOrder }) => {
         const tasks = column.taskIds.map((taskId) => data.tasks[taskId]);
 
         return (
-          <DroppableColumn key={column.id} column={column} tasks={tasks} onAddQuest={addQuest} />
+          <DroppableColumn
+            key={column.id}
+            column={column}
+            tasks={tasks}
+            onAddQuest={addQuest}
+          />
         );
       })}
     </DragDropContext>

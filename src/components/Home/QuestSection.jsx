@@ -40,22 +40,22 @@ const QuestSection = () => {
   }, {});
 
   const columns = {
-    "column-1": {
-      id: "column-1",
+    "Todo": {
+      id: "Todo",
       title: "To Do",
       taskIds: data
         .filter((quest) => quest.status === "Todo")
         .map((quest) => quest.id),
     },
-    "column-2": {
-      id: "column-2",
+    "Doing": {
+      id: "Doing",
       title: "Doing",
       taskIds: data
         .filter((quest) => quest.status === "Doing")
         .map((quest) => quest.id),
     },
-    "column-3": {
-      id: "column-3",
+    "Done": {
+      id: "Done",
       title: "Done",
       taskIds: data
         .filter((quest) => quest.status === "Done")
@@ -63,7 +63,7 @@ const QuestSection = () => {
     },
   };
 
-  const columnOrder = ["column-1", "column-2", "column-3"];
+  const columnOrder = ["Todo", "Doing", "Done"];
 
   return (
     <div className="quest-section">
