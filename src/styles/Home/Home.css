@@ -40,3 +40,57 @@
   width: 20vw;
   border-radius: 0%;
 }
+
+.profile-section {
+  padding: 0.5rem;
+  padding-bottom: 1.5rem;
+  padding-left: 1.5rem;
+  display: flex;
+  align-items: center;
+  height: 33vh;
+  background-color: var(--profile-section-color);
+}
+
+.avatar {
+  width: 11rem;
+  border: medium solid greenyellow;
+}
+
+.stat {
+  width: 14rem;
+  margin-left: 1rem;
+}
+
+.player-name {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.player-progress-bar {
+  margin: 0.3rem;
+  border-radius: 0%;
+}
+
+.player-progress {
+  background-color: white; /* Change this to a complementary color if needed */
+  color: rgb(229, 51, 161);
+  font-weight: bold;
+}
+
+.player-progress::after {
+  background-color: white; /* Change this to a complementary color if needed */
+}
+
+.toast.fade-out {
+  animation: fadeOut 3s ease-out forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+

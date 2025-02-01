@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import "../styles/Home/Home.css";
 import { Modal } from 'bootstrap/dist/js/bootstrap.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import NavbarComponent from "../components/Home/NavbarComponent";
+import NavbarComponent from "../components/Home/NavbarComponent.jsx";
+import ProfileSection from "../components/Home/ProfileSection.jsx";
+import BoardComponent from "../components/Home/BoardComponent.jsx";
 
 function Home() {
   const hideAllModals = () => {
@@ -25,13 +27,11 @@ function Home() {
   }, []);
 
   return (
-    <div className="app background-primary" style={{ height: "100vh" }}>
+    <div className="app">
       <NavbarComponent/>
-      <div className='profile-section'>
-        Profile
-      </div>
+      <ProfileSection/>
       <div className='quest-section'>
-        Quest
+        <BoardComponent/>
       </div>
     </div>
   );

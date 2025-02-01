@@ -35,26 +35,10 @@ function NavbarComponent() {
     if (success) logout();
   };
 
-  const hideAllModals = () => {
-    // Hide any open modals
-    const modals = document.querySelectorAll(".modal");
-    modals.forEach((modal) => {
-      const modalInstance = Modal.getInstance(modal);
-      if (modalInstance) {
-        modalInstance.hide();
-      }
-    });
-
-    // Remove any existing backdrops
-    const backdrops = document.querySelectorAll(".modal-backdrop");
-    backdrops.forEach((backdrop) => backdrop.parentNode.removeChild(backdrop));
-  };
-
   useEffect(() => {
-    let popover = null;
-    let dropdown = null;
-
-    if (userIconRef.current) {
+    // Ensure only one instance of Popover and Dropdown per element
+    let popover = Popover.getInstance(userIconRef.current);
+    if (!popover) {
       popover = new Popover(userIconRef.current, {
         customClass: "custom-popover",
         content: "User",
@@ -63,7 +47,8 @@ function NavbarComponent() {
       });
     }
 
-    if (dropdownToggleRef.current) {
+    let dropdown = Dropdown.getInstance(dropdownToggleRef.current);
+    if (!dropdown) {
       dropdown = new Dropdown(dropdownToggleRef.current);
     }
 
@@ -78,8 +63,6 @@ function NavbarComponent() {
     };
 
     document.addEventListener("click", closeDropdown);
-
-    hideAllModals();
 
     return () => {
       if (popover) popover.dispose();

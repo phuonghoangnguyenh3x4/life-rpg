@@ -6,6 +6,7 @@
   --button-border-radius: 9px;
   --nav-background-color: #131313;
   --nav-link-color: #777777;
+  --profile-section-color: #0d0d0d;
 }
 
 .brand {
@@ -24,7 +25,7 @@ p {
   max-width: 450px;
 }
 
-.background-primary {
+body {
   background-color: #181A1B;
 }
 

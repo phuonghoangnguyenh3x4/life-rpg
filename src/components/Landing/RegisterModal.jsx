@@ -24,7 +24,7 @@ function RegisterModal() {
 
       const data = response.data;
       console.log(response);
-      if (response.status !== 200) {
+      if (response.status !== 201) {
         throw new Error(data.error);
       }
       console.log(data);

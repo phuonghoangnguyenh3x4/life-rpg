@@ -1,36 +1,47 @@
 import AuthenticationForm from "./AuthenticationForm";
 import $ from "jquery";
-import { useAuth } from '../../context/AuthContext';
-import axios from 'axios';
+import { useAuth } from "../../context/AuthContext";
+import axios from "axios";
 
 function LoginModal() {
   const apiURL = process.env.REACT_APP_API_URL;
-  const {login} = useAuth();
+  const { login } = useAuth();
+
+  const showErrorToast = (delay=3000) => {
+    let toast = $("#custom-toast");
+    toast.show();
+    toast.addClass('fade-out'); // Add fade-out class
+
+    setTimeout(() => {
+      toast.hide();
+      toast.removeClass('fade-out'); // Remove fade-out class
+    }, delay);
+  }
 
   const sendLoginRequest = async (email, password) => {
     const formData = new FormData();
     formData.append("email", email);
     formData.append("password", password);
-    
+
     try {
       const response = await axios.post(`${apiURL}/login`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          "Content-Type": "multipart/form-data",
         },
-        withCredentials: true 
+        withCredentials: true,
       });
       const data = response.data;
-      console.log(response);
-      if (response.status !== 200) {
+      if (response.status !== 202) {
+        console.log("data.error", data.error);
         throw new Error(data.error);
       }
-      console.log(data)
+      console.log(data);
       return true;
     } catch (error) {
-      console.error(error);
+      console.error(error.response.data);
       return false;
     }
-  }
+  };
 
   const handleLogin = async () => {
     let email = $("#emailInput-login");
@@ -38,6 +49,7 @@ function LoginModal() {
 
     let success = await sendLoginRequest(email.val(), password.val());
     if (success) login();
+    else showErrorToast();
   };
 
   return (
@@ -57,7 +69,7 @@ function LoginModal() {
               <AuthenticationForm screen="login" />
             </div>
           </div>
-          <div className="modal-footer border-0  text-center d-flex justify-content-center align-items-center">
+          <div className="modal-footer border-0 text-center d-flex justify-content-center align-items-center">
             <button
               type="button"
               className="btn btn-primary modal-button"
@@ -65,6 +77,19 @@ function LoginModal() {
             >
               Login
             </button>
+          </div>
+        </div>
+      </div>
+      <div className="toast-container top-50 start-50 translate-middle-x">
+        <div
+          id="custom-toast"
+          className="toast align-items-center text-bg-danger border-0"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
+          <div className="toast-body">
+            Incorrect email or password
           </div>
         </div>
       </div>

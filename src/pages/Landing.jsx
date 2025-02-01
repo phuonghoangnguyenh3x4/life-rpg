@@ -14,7 +14,7 @@ function Landing() {
   }, [isAuthenticated]);
 
   return !isAuthenticated ? (
-    <div className="app background-primary" style={{ height: "100vh" }}>
+    <div className="app">
       <NavbarComponent />
       <Hero />
       <RegisterModal />
