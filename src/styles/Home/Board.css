@@ -30,3 +30,33 @@
   .add-quest-button:hover {
     background-color: #545454;
   }
+
+  .pagination-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .pagination-controls button {
+    margin: 0 10px;
+    padding: 8px 16px;
+    background-color: #1976d2;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .pagination-controls button:disabled {
+    background-color: #444;
+    cursor: not-allowed;
+  }
+  
+  .pagination-controls button:hover:not(:disabled) {
+    background-color: #0d47a1;
+  }
+
+  .board-container {
+    width: fit-content;
+  }

@@ -4,7 +4,7 @@ import DroppableColumn from "./DroppableColumn";
 import axios from "axios";
 import "../../../styles/Home/Board.css";
 
-const BoardComponent = ({ tasks, columns, columnOrder }) => {
+const BoardComponent = ({ tasks, columns, columnOrder, currentPage, onNextPage, onPrevPage, pages }) => {
   const [data, setData] = useState({
     tasks: {},
     columns: {},
@@ -96,12 +96,16 @@ const BoardComponent = ({ tasks, columns, columnOrder }) => {
     formData.append("status", newStatus);
 
     try {
-      const response = await axios.post(`${apiURL}/change-quest-status`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        `${apiURL}/change-quest-status`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      );
 
       const data = response.data;
       console.log(response);
@@ -121,21 +125,31 @@ const BoardComponent = ({ tasks, columns, columnOrder }) => {
   };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      {data.columnOrder.map((columnId) => {
-        const column = data.columns[columnId];
-        const tasks = column.taskIds.map((taskId) => data.tasks[taskId]);
+    <div className="board-container">
+      <div>
+        <DragDropContext onDragEnd={onDragEnd}>
+          {data.columnOrder.map((columnId) => {
+            const column = data.columns[columnId];
+            const tasks = column.taskIds.map((taskId) => data.tasks[taskId]);
 
-        return (
-          <DroppableColumn
-            key={column.id}
-            column={column}
-            tasks={tasks}
-            onAddQuest={addQuest}
-          />
-        );
-      })}
-    </DragDropContext>
+            return (
+              <DroppableColumn
+                key={column.id}
+                column={column}
+                tasks={tasks}
+                onAddQuest={addQuest}
+              />
+            );
+          })}
+        </DragDropContext>
+      </div>
+      <div className="pagination-controls">
+        <button onClick={onPrevPage} disabled={currentPage === 1}>
+          Previous
+        </button>
+        <button onClick={onNextPage} disabled={currentPage === pages}>Next</button>
+      </div>
+    </div>
   );
 };
 
