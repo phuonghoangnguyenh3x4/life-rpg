@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import BoardComponent from "./QuestBoard/BoardComponent";
+import { PlayerContext } from "../../context/PlayerContext";
 
 const fetchQuests = async (current_page) => {
   const apiURL = process.env.REACT_APP_API_URL;
@@ -26,8 +27,9 @@ const fetchQuests = async (current_page) => {
 
 const QuestSection = () => {
   const [current_page, setCurrentPage] = useState(1);
+  const { getPlayerInfo } = useContext(PlayerContext);
 
-  const { data, error, isLoading } = useQuery({
+  const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["quests", current_page],
     queryFn: () => fetchQuests(current_page)
   });
@@ -78,6 +80,38 @@ const QuestSection = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
+  const changeTaskStatus = async (taskId, newStatus) => {
+    const apiURL = process.env.REACT_APP_API_URL;
+    const formData = new FormData();
+    formData.append("id", taskId);
+    formData.append("status", newStatus);
+
+    try {
+      const response = await axios.post(
+        `${apiURL}/change-quest-status`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      );
+
+      const data = response.data;
+      console.log(response);
+      if (response.status !== 200) {
+        throw new Error(data.error);
+      }
+      console.log(data);
+      getPlayerInfo(); 
+      return true;
+    } catch (error) {
+      console.error(error.response.data);
+      return false;
+    }
+  };
+
   return (
     <div className="quest-section">
       <BoardComponent
@@ -88,6 +122,9 @@ const QuestSection = () => {
         onNextPage={handleNextPage}
         onPrevPage={handlePrevPage}
         pages={pages}
+        changeTaskStatus={changeTaskStatus}
+        prevOrds={data.prev_ord}
+        nextOrds={data.next_ord}
       />
     </div>
   );

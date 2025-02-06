@@ -46,6 +46,7 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    width: 6em;
   }
   
   .pagination-controls button:disabled {
