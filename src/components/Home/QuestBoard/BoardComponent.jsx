@@ -2,15 +2,27 @@ import React, { useState, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import DroppableColumn from "./DroppableColumn";
 import "../../../styles/Home/Board.css";
-import {LexoRank} from "lexorank";
+import { LexoRank } from "lexorank";
 import axios from "axios";
+import AddQuestModal from "./AddQuestModal";
 
-const BoardComponent = ({ tasks, columns, columnOrder, currentPage, onNextPage, onPrevPage, pages, changeTaskStatus, prevOrds, nextOrds }) => {
+const BoardComponent = ({
+  tasks,
+  columns,
+  columnOrder,
+  currentPage,
+  onNextPage,
+  onPrevPage,
+  pages,
+  changeTaskStatus,
+  prevOrds,
+  nextOrds,
+}) => {
   const [data, setData] = useState({
     tasks: {},
     columns: {},
     columnOrder: [],
-    currentPage: 1
+    currentPage: 1,
   });
 
   useEffect(() => {
@@ -18,7 +30,7 @@ const BoardComponent = ({ tasks, columns, columnOrder, currentPage, onNextPage, 
       tasks: tasks,
       columns: columns,
       columnOrder: columnOrder,
-      currentPage: currentPage
+      currentPage: currentPage,
     });
   }, [currentPage]);
 
@@ -54,7 +66,7 @@ const BoardComponent = ({ tasks, columns, columnOrder, currentPage, onNextPage, 
             withCredentials: true,
           }
         );
-  
+
         const data = response.data;
         console.log(response);
         if (response.status !== 200) {
@@ -66,34 +78,39 @@ const BoardComponent = ({ tasks, columns, columnOrder, currentPage, onNextPage, 
         console.error(error.response.data);
         return false;
       }
-    }
+    };
 
-    const calculateTaskOrder = (newState, columnName, destinationCol, taskIndex) => {
+    const calculateTaskOrder = (
+      newState,
+      columnName,
+      destinationCol,
+      taskIndex
+    ) => {
       if (taskIndex === 0 && taskIndex === destinationCol.taskIds.length - 1) {
         if (prevOrds[columnName] === null) {
           return LexoRank.min().genNext();
         }
-        let prevOrd = LexoRank.parse(prevOrds[columnName])
+        let prevOrd = LexoRank.parse(prevOrds[columnName]);
         let nextOrd = LexoRank.min();
         let newOrd = prevOrd.between(nextOrd);
-        console.log("prevOrd", prevOrd)
-        console.log("nextOrd", nextOrd)
-        console.log("newOrd", newOrd)
+        console.log("prevOrd", prevOrd);
+        console.log("nextOrd", nextOrd);
+        console.log("newOrd", newOrd);
         return newOrd;
       }
       if (taskIndex === 0) {
         if (prevOrds[columnName] === null) {
           let nextQuestId = destinationCol.taskIds[taskIndex + 1];
           let nextQuest = newState.tasks[nextQuestId];
-          let nextOrd = LexoRank.parse(nextQuest['ord']);
+          let nextOrd = LexoRank.parse(nextQuest["ord"]);
           let newOrd = nextOrd.genNext();
           return newOrd;
         }
 
-        let prevOrd = LexoRank.parse(prevOrds[columnName])
+        let prevOrd = LexoRank.parse(prevOrds[columnName]);
         let nextQuestId = destinationCol.taskIds[taskIndex + 1];
         let nextQuest = newState.tasks[nextQuestId];
-        let nextOrd = LexoRank.parse(nextQuest['ord']);
+        let nextOrd = LexoRank.parse(nextQuest["ord"]);
         let newOrd = prevOrd.between(nextOrd);
         return newOrd;
       }
@@ -101,11 +118,11 @@ const BoardComponent = ({ tasks, columns, columnOrder, currentPage, onNextPage, 
         let nextOrd = LexoRank.min();
         if (nextOrds[columnName] !== null) {
           nextOrd = LexoRank.parse(nextOrds[columnName]);
-        } 
+        }
         console.log("nextOrd", nextOrd);
         let prevQuestId = destinationCol.taskIds[taskIndex - 1];
         let prevQuest = newState.tasks[prevQuestId];
-        let prevOrd = LexoRank.parse(prevQuest['ord']);
+        let prevOrd = LexoRank.parse(prevQuest["ord"]);
         console.log("prevOrd", prevOrd);
         console.log("prevQuest", prevQuest);
         let newOrd = prevOrd.between(nextOrd);
@@ -118,22 +135,27 @@ const BoardComponent = ({ tasks, columns, columnOrder, currentPage, onNextPage, 
       let nextQuestId = destinationCol.taskIds[taskIndex + 1];
       let nextQuest = newState.tasks[nextQuestId];
 
-      let prevOrd = LexoRank.parse(prevQuest['ord']);
-      let nextOrd = LexoRank.parse(nextQuest['ord']);
+      let prevOrd = LexoRank.parse(prevQuest["ord"]);
+      let nextOrd = LexoRank.parse(nextQuest["ord"]);
       let newOrd = prevOrd.between(nextOrd);
-      
+
       return newOrd;
-    }
+    };
 
     const changeTaskOrder = async (newState) => {
       let columnName = destination.droppableId;
       let destinationCol = newState.columns[columnName];
       let taskIndex = destination.index;
       let questId = destinationCol.taskIds[taskIndex];
-      
-      let newOrd = calculateTaskOrder(newState, columnName, destinationCol, taskIndex);
+
+      let newOrd = calculateTaskOrder(
+        newState,
+        columnName,
+        destinationCol,
+        taskIndex
+      );
       await sendChangeOrderRequest(questId, newOrd);
-    }
+    };
 
     const start = data.columns[source.droppableId];
     const finish = data.columns[destination.droppableId];
@@ -192,34 +214,40 @@ const BoardComponent = ({ tasks, columns, columnOrder, currentPage, onNextPage, 
 
   const addQuest = (columnId) => {
     // Add new quest logic
+    // $("#addQuestModal").show();
   };
 
   return (
-    <div className="board-container">
-      <div>
-        <DragDropContext onDragEnd={onDragEnd}>
-          {data.columnOrder.map((columnId) => {
-            const column = data.columns[columnId];
-            const tasks = column.taskIds.map((taskId) => data.tasks[taskId]);
+    <>
+      <div className="board-container">
+        <div>
+          <DragDropContext onDragEnd={onDragEnd}>
+            {data.columnOrder.map((columnId) => {
+              const column = data.columns[columnId];
+              const tasks = column.taskIds.map((taskId) => data.tasks[taskId]);
 
-            return (
-              <DroppableColumn
-                key={column.id}
-                column={column}
-                tasks={tasks}
-                onAddQuest={addQuest}
-              />
-            );
-          })}
-        </DragDropContext>
+              return (
+                <DroppableColumn
+                  key={column.id}
+                  column={column}
+                  tasks={tasks}
+                  onAddQuest={addQuest}
+                />
+              );
+            })}
+          </DragDropContext>
+        </div>
+        <div className="pagination-controls">
+          <button onClick={onPrevPage} disabled={currentPage === 1}>
+            Previous
+          </button>
+          <button onClick={onNextPage} disabled={currentPage === pages}>
+            Next
+          </button>
+        </div>
       </div>
-      <div className="pagination-controls">
-        <button onClick={onPrevPage} disabled={currentPage === 1}>
-          Previous
-        </button>
-        <button onClick={onNextPage} disabled={currentPage === pages}>Next</button>
-      </div>
-    </div>
+      <AddQuestModal/>
+    </>
   );
 };
 

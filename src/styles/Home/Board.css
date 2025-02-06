@@ -61,3 +61,82 @@
   .board-container {
     width: fit-content;
   }
+
+.custom-quest-modal-header {
+  display: flex;
+  background-color: #0d47a1;
+}
+
+.custom-quest-close-button {
+  background-color: transparent;
+  border: none;
+}
+.custom-quest-close-button:hover {
+  background-color: transparent;
+  border: none;
+}
+
+.custom-quest-save-button {
+  background-color: black;
+  border: none;
+}
+.custom-quest-save-button:hover {
+  background-color: black;
+  border: none;
+}
+
+.custom-quest-header-input {
+  padding: 0.2em;
+  background-color: #154259;
+  border: none;
+  padding-left: 2%;
+  padding-right: 2%;
+  border-radius: 0.25em;
+}
+
+.custom-quest-header-input:focus {
+  padding: 0.2em;
+  background-color: #172f3a;
+  border: none;
+  outline: none;
+  padding-left: 2%;
+  padding-right: 2%;
+}
+
+.custom-quest-header-input::placeholder {
+  color: whitesmoke;
+}
+
+.quest-delete-button {
+  color: rgb(252, 88, 88);
+}
+
+.quest-delete-button-icon {
+  color: rgb(252, 88, 88);
+}
+
+.quest-delete-button:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  cursor: pointer;
+}
+
+.custom-quest-body-input {
+  padding: 0.2em;
+  background-color: rgb(17, 17, 17);
+  border: none;
+  padding-left: 2%;
+  padding-right: 2%;
+  border-radius: 0.25em;
+  outline: none;
+}
+
+.custom-quest-body-input:focus {
+  padding: 0.2em;
+  background-color: rgb(17, 17, 17);
+  border: none;
+  outline: none;
+  padding-left: 2%;
+  padding-right: 2%;
+  box-shadow: none; 
+}

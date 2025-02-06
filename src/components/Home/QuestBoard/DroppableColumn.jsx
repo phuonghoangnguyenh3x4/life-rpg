@@ -1,6 +1,8 @@
 import React from "react";
 import { StrictModeDroppable } from "./StrictModeDroppable";
 import DraggableTask from "./DraggableTask";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const DroppableColumn = ({ column, tasks, onAddQuest }) => {
   return (
@@ -16,8 +18,8 @@ const DroppableColumn = ({ column, tasks, onAddQuest }) => {
             <DraggableTask key={task.id} task={task} index={index} />
           ))}
           {provided.placeholder}
-          <button onClick={() => onAddQuest(column.id)} className="add-quest-button">
-            + Add a quest
+          <button onClick={() => onAddQuest(column.id)} className="add-quest-button" data-bs-toggle="modal" data-bs-target="#addQuestModal">
+            <FontAwesomeIcon icon={faPlus} /> Add a quest
           </button>
         </div>
       )}
