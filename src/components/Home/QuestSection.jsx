@@ -1,34 +1,39 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import BoardComponent from "./QuestBoard/BoardComponent";
 import { PlayerContext } from "../../context/PlayerContext";
-
-const fetchQuests = async (current_page) => {
-  const apiURL = process.env.REACT_APP_API_URL;
-
-  try {
-    const response = await axios.get(`${apiURL}/get-quest`, {
-      params: { page: current_page },
-      withCredentials: true,
-    });
-    const data = response.data;
-    if (response.status !== 200) {
-      console.log("data.error", data.error);
-      throw new Error(data.error);
-    }
-    console.log("data", data);
-    return data;
-  } catch (error) {
-    console.error(error.response.data);
-    throw new Error(error.response.data);
-  }
-};
+import { useAuth } from "../../context/AuthContext";
 
 const QuestSection = () => {
   const [current_page, setCurrentPage] = useState(1);
   const { getPlayerInfo } = useContext(PlayerContext);
+  const { checkAuthStatus } = useAuth();
 
+  const fetchQuests = async (current_page) => {
+    const apiURL = process.env.REACT_APP_API_URL;
+  
+    try {
+      const response = await axios.get(`${apiURL}/get-quest`, {
+        params: { page: current_page },
+        withCredentials: true,
+      });
+      const data = response.data;
+      if (response.status !== 200) {
+        console.log("data.error", data.error);
+        throw new Error(data.error);
+      }
+      console.log("data", data);
+      return data;
+    } catch (error) {
+      console.error(error.response.data);
+      if (error.response.status === 401) {
+        checkAuthStatus();
+      }
+      throw new Error(error.response.data);
+    }
+  };
+  
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["quests", current_page],
     queryFn: () => fetchQuests(current_page)

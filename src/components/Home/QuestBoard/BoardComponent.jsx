@@ -5,6 +5,8 @@ import "../../../styles/Home/Board.css";
 import { LexoRank } from "lexorank";
 import axios from "axios";
 import AddQuestModal from "./AddQuestModal";
+import $ from 'jquery';
+import statusToColor from "../../../helpers/StatusToColor";
 
 const BoardComponent = ({
   tasks,
@@ -213,8 +215,7 @@ const BoardComponent = ({
   };
 
   const addQuest = (columnId) => {
-    // Add new quest logic
-    // $("#addQuestModal").show();
+    $("#quest-add-status").text(`${columnId}`).css({ "background-color": statusToColor[columnId]});;
   };
 
   return (

@@ -10,8 +10,10 @@ export function AuthProvider({ children }) {
   const checkAuthStatus = async () => {
     try {
       const response = await axios.get(`${apiURL}/check-auth`, { withCredentials: true });
+      console.log(response);
       setIsAuthenticated(response.status === 200);
     } catch (error) {
+      console.log(error);
       setIsAuthenticated(false);
     }
   };
@@ -29,7 +31,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, checkAuthStatus, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

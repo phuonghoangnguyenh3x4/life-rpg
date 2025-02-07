@@ -1,15 +1,9 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import "../../../styles/Home/Task.css";
+import difficultyToColor from "../../../helpers/DifficultyToColor";
 
 const DraggableTask = ({ task, index }) => {
-  const difficultyToColor = {
-    Trivial: "gray",
-    Easy: "green",
-    Normal: "deeppink",
-    Hard: "red",
-    SuperHard: "orangered",
-  };
   return (
     <Draggable key={task.id} draggableId={task.id} index={index}>
       {(provided, snapshot) => (

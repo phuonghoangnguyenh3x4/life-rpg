@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { Modal, Popover, Dropdown } from "bootstrap/dist/js/bootstrap.min.js";
+import { Popover, Dropdown } from "bootstrap/dist/js/bootstrap.min.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
@@ -9,7 +9,7 @@ function NavbarComponent() {
   const dropdownToggleRef = useRef(null);
   const dropdownMenuRef = useRef(null);
   const apiURL = process.env.REACT_APP_API_URL;
-  const { logout } = useAuth();
+  const { logout, checkAuthStatus } = useAuth();
 
   const sendLogOutRequest = async () => {
     try {
@@ -25,6 +25,9 @@ function NavbarComponent() {
       console.log(data);
       return true;
     } catch (error) {
+      if (error.response.status === 401) {
+        checkAuthStatus();
+      }
       console.error("Error logging out:", error);
       return false;
     }

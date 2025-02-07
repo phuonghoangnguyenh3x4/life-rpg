@@ -2,10 +2,12 @@ import AuthenticationForm from "./AuthenticationForm";
 import $ from "jquery";
 import { useAuth } from "../../context/AuthContext";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function LoginModal() {
   const apiURL = process.env.REACT_APP_API_URL;
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const showErrorToast = (delay=4000) => {
     let toast = $("#custom-toast-login");
@@ -48,7 +50,10 @@ function LoginModal() {
     let password = $("#passwordInput-login");
 
     let success = await sendLoginRequest(email.val(), password.val());
-    if (success) login();
+    if (success) {
+      await login()
+      navigate("/home");
+    }
     else showErrorToast();
   };
 

@@ -1,11 +1,11 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 import "../styles/Home/Home.css";
 import { Modal } from "bootstrap/dist/js/bootstrap.min.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavbarComponent from "../components/Home/NavbarComponent.jsx";
 import ProfileSection from "../components/Home/ProfileSection.jsx";
 import QuestSection from "../components/Home/QuestSection.jsx";
-import { PlayerProvider, PlayerContext } from "../context/PlayerContext.jsx";
+import { PlayerProvider } from "../context/PlayerContext.jsx";
 
 function Home() {
   const hideAllModals = () => {

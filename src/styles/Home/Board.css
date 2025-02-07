@@ -140,3 +140,9 @@
   padding-right: 2%;
   box-shadow: none; 
 }
+
+.quest-status {
+  width: fit-content;
+  padding: 0.2em;
+  border-radius: 0.25em;
+}
