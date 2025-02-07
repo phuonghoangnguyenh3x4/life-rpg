@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import DroppableColumn from "./DroppableColumn";
 import "../../../styles/Home/Board.css";
@@ -8,7 +8,7 @@ import AddQuestModal from "./AddQuestModal";
 import $ from 'jquery';
 import statusToColor from "../../../helpers/StatusToColor";
 
-const BoardComponent = ({
+const BoardComponent = memo(({
   tasks,
   columns,
   columnOrder,
@@ -19,22 +19,69 @@ const BoardComponent = ({
   changeTaskStatus,
   prevOrds,
   nextOrds,
+  refetch
 }) => {
   const [data, setData] = useState({
     tasks: {},
     columns: {},
-    columnOrder: [],
-    currentPage: 1,
+    columnOrder: []
   });
 
   useEffect(() => {
     setData({
       tasks: tasks,
       columns: columns,
-      columnOrder: columnOrder,
-      currentPage: currentPage,
+      columnOrder: columnOrder
     });
   }, [currentPage]);
+
+  const addNewQuestToBoard = (newQuest) => {
+    newQuest.id = `${newQuest.id}`;
+    console.log(newQuest);
+    const col = data.columns[newQuest.status];
+    const taskIds = col.taskIds;
+    const newTaskIds = [newQuest.id, ...taskIds]
+    const newColumn = {
+      ...col,
+      taskIds: newTaskIds,
+    };
+
+    const newTasks = {
+      ...data.tasks,
+      [newQuest.id]: newQuest,
+    }
+
+    const newState = {
+      ...data,
+      tasks: newTasks,
+      columns: {
+        ...data.columns,
+        [newQuest.status]: newColumn,
+      },
+    };
+
+    setData(newState);
+    refetch({cancelRefetch:true});
+  }
+
+  const getNewOrder = (columnId) => {
+    let prevOrd = prevOrds[columnId];
+    let taskIds = columns[columnId].taskIds; 
+    let firstTaskId = taskIds.length === 0 ? null : taskIds[0];
+    let firstTaskOrd = firstTaskId ? tasks[firstTaskId]['ord'] : null;
+    if (prevOrd === null && firstTaskOrd == null) {
+      return LexoRank.min().genNext();
+    } 
+    if (prevOrd === null) {
+      return LexoRank.parse(firstTaskOrd).genNext();
+    }
+    if (firstTaskOrd === null) {
+      return LexoRank.parse(prevOrd).between(LexoRank.min())
+    }
+    prevOrd = LexoRank.parse(prevOrd);
+    firstTaskOrd = LexoRank.parse(firstTaskOrd);
+    return firstTaskOrd.between(prevOrd);
+  }
 
   const onDragEnd = async (result) => {
     console.log("Drag Ended", result);
@@ -157,6 +204,7 @@ const BoardComponent = ({
         taskIndex
       );
       await sendChangeOrderRequest(questId, newOrd);
+      refetch({cancelRefetch:true});
     };
 
     const start = data.columns[source.droppableId];
@@ -247,9 +295,9 @@ const BoardComponent = ({
           </button>
         </div>
       </div>
-      <AddQuestModal/>
+      <AddQuestModal getNewOrder={getNewOrder} addNewQuestToBoard={addNewQuestToBoard}/>
     </>
   );
-};
+});
 
 export default BoardComponent;

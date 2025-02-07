@@ -3,15 +3,32 @@ import "../../../styles/Home/Board.css";
 import $ from "jquery";
 import axios from 'axios';
 
-const AddQuestModal = () => {
+const AddQuestModal = ({getNewOrder, addNewQuestToBoard}) => {
   const apiURL = process.env.REACT_APP_API_URL;
 
   const handleSave = () => {
     $("#addQuestSubmit").trigger("submit");
   };
 
-  const getNewOrder = () => {
-    
+  const sendCreateQuestRequest = async (formData) => {
+    try {
+      const response = await axios.post(`${apiURL}/create-quest`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        withCredentials: true 
+      });
+
+      const data = response.data;
+      console.log(response);
+      if (response.status !== 200) {
+        throw new Error(data.error);
+      }
+      return data;
+    } catch (error) {
+      console.error(error.response.data);
+      return null;
+    }
   }
 
   const handleSubmit = async (event) => {
@@ -20,26 +37,13 @@ const AddQuestModal = () => {
     let status = $('#quest-add-status').text();
     let ord = getNewOrder(status);
     formData.append("status", status);
+    formData.append("ord", ord);
 
-    // try {
-    //   const response = await axios.post(`${apiURL}/create-account`, formData, {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data'
-    //     },
-    //     withCredentials: true 
-    //   });
-
-    //   const data = response.data;
-    //   console.log(response);
-    //   if (response.status !== 201) {
-    //     throw new Error(data.error);
-    //   }
-    //   console.log(data);
-    //   return true;
-    // } catch (error) {
-    //   console.error(error.response.data);
-    //   return false;
-    // }
+    let newQuest = await sendCreateQuestRequest(formData);
+    if (newQuest) {
+      addNewQuestToBoard(newQuest);
+      $("#questAddCloseButton").trigger("click");
+    }
   }
 
   return (

@@ -1,11 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useCallback, memo  } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import BoardComponent from "./QuestBoard/BoardComponent";
 import { PlayerContext } from "../../context/PlayerContext";
 import { useAuth } from "../../context/AuthContext";
 
-const QuestSection = () => {
+const QuestSection = memo(() => {
   const [current_page, setCurrentPage] = useState(1);
   const { getPlayerInfo } = useContext(PlayerContext);
   const { checkAuthStatus } = useAuth();
@@ -33,11 +33,46 @@ const QuestSection = () => {
       throw new Error(error.response.data);
     }
   };
-  
+
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["quests", current_page],
-    queryFn: () => fetchQuests(current_page)
+    queryFn: () => fetchQuests(current_page),
+    staleTime: 0,
+    cacheTime: 0
   });
+
+  const changeTaskStatus = useCallback(async (taskId, newStatus) => {
+    const apiURL = process.env.REACT_APP_API_URL;
+    const formData = new FormData();
+    formData.append("id", taskId);
+    formData.append("status", newStatus);
+
+    try {
+      const response = await axios.post(
+        `${apiURL}/change-quest-status`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      );
+
+      const data = response.data;
+      console.log(response);
+      if (response.status !== 200) {
+        throw new Error(data.error);
+      }
+      console.log(data);
+      await getPlayerInfo(); 
+      refetch({cancelRefetch:true});
+      return true;
+    } catch (error) {
+      console.error(error.response.data);
+      return false;
+    }
+  },[getPlayerInfo]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -85,38 +120,6 @@ const QuestSection = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
-  const changeTaskStatus = async (taskId, newStatus) => {
-    const apiURL = process.env.REACT_APP_API_URL;
-    const formData = new FormData();
-    formData.append("id", taskId);
-    formData.append("status", newStatus);
-
-    try {
-      const response = await axios.post(
-        `${apiURL}/change-quest-status`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        }
-      );
-
-      const data = response.data;
-      console.log(response);
-      if (response.status !== 200) {
-        throw new Error(data.error);
-      }
-      console.log(data);
-      getPlayerInfo(); 
-      return true;
-    } catch (error) {
-      console.error(error.response.data);
-      return false;
-    }
-  };
-
   return (
     <div className="quest-section">
       <BoardComponent
@@ -130,9 +133,10 @@ const QuestSection = () => {
         changeTaskStatus={changeTaskStatus}
         prevOrds={data.prev_ord}
         nextOrds={data.next_ord}
+        refetch={refetch}
       />
     </div>
   );
-};
+});
 
 export default QuestSection;
