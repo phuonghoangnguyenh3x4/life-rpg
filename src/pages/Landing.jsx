@@ -5,18 +5,21 @@ import LoginModal from "../components/Landing/LoginModal";
 import { useAuth } from "../context/AuthContext";
 import "../styles/Modal.css";
 import { Navigate } from "react-router-dom";
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
+import "../styles/Landing/LandingBackground.css"
 
 function Landing() {
   const { isAuthenticated } = useAuth();
 
-  useEffect(() => {
-  }, [isAuthenticated]);
+  useEffect(() => {}, [isAuthenticated]);
 
   return !isAuthenticated ? (
-    <div className="app">
-      <NavbarComponent />
-      <Hero />
+    <div className="landing">
+      <div className="rpg-bg-overlay"></div>
+      <div className="landing-content">
+        <NavbarComponent />
+        <Hero />
+      </div>
       <RegisterModal />
       <LoginModal />
     </div>

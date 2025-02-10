@@ -142,9 +142,6 @@ const BoardComponent = memo(({
         let prevOrd = LexoRank.parse(prevOrds[columnName]);
         let nextOrd = LexoRank.min();
         let newOrd = prevOrd.between(nextOrd);
-        console.log("prevOrd", prevOrd);
-        console.log("nextOrd", nextOrd);
-        console.log("newOrd", newOrd);
         return newOrd;
       }
       if (taskIndex === 0) {
@@ -172,10 +169,7 @@ const BoardComponent = memo(({
         let prevQuestId = destinationCol.taskIds[taskIndex - 1];
         let prevQuest = newState.tasks[prevQuestId];
         let prevOrd = LexoRank.parse(prevQuest["ord"]);
-        console.log("prevOrd", prevOrd);
-        console.log("prevQuest", prevQuest);
         let newOrd = prevOrd.between(nextOrd);
-        console.log("newOrd", newOrd);
         return newOrd;
       }
       let prevQuestId = destinationCol.taskIds[taskIndex - 1];

@@ -1,0 +1,49 @@
+.profile-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    color: white;
+  }
+  
+  .avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid gold;
+  }
+  
+  .stat {
+    gap: 8px;
+  }
+  
+  .progress-bar {
+    transition: width 0.5s ease-in-out;
+  }
+  
+  .player-level.celebrate {
+    animation: celebrate 1s ease-in-out;
+    position: relative;
+  }
+  
+  @keyframes celebrate {
+    0% { transform: scale(1) rotate(0deg); }
+    25% { transform: scale(1.5) rotate(10deg); }
+    50% { transform: scale(1.5) rotate(-10deg); }
+    75% { transform: scale(1.2) rotate(5deg); }
+    100% { transform: scale(1) rotate(0deg); }
+  }
+  
+  .player-level.celebrate::after {
+    content: "🎉";
+    position: absolute;
+    right: -30px;
+    animation: sparkle 1s ease-out;
+  }
+  
+  @keyframes sparkle {
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(2); }
+  }

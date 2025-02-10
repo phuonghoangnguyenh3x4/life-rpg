@@ -6,6 +6,7 @@ import NavbarComponent from "../components/Home/NavbarComponent.jsx";
 import ProfileSection from "../components/Home/ProfileSection.jsx";
 import QuestSection from "../components/Home/QuestSection.jsx";
 import { PlayerProvider } from "../context/PlayerContext.jsx";
+import "../styles/Home/HomeBackground.css";
 
 function Home() {
   const hideAllModals = () => {
@@ -35,9 +36,12 @@ function Home() {
   return (
     <PlayerProvider>
       <div className="app">
-        <NavbarComponent />
-        <ProfileSection />
-        <QuestSection />
+        <div className="rune-overlay" aria-hidden="true"></div>
+        <div className="content-wrapper">
+          <NavbarComponent />
+          <ProfileSection />
+          <QuestSection />
+        </div>
       </div>
     </PlayerProvider>
   );
