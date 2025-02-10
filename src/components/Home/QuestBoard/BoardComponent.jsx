@@ -3,24 +3,22 @@ import { DragDropContext } from "react-beautiful-dnd";
 import DroppableColumn from "./DroppableColumn";
 import "../../../styles/Home/Board.css";
 import { LexoRank } from "lexorank";
-import axios from "axios";
+import sendChangeOrderRequest from "../../../requests/ChangeQuestOrder";
 import AddQuestModal from "./AddQuestModal";
+import EditQuestModal from "./EditQuestModal";
 import $ from 'jquery';
 import statusToColor from "../../../helpers/StatusToColor";
+import calculateTaskOrder from "../../../helpers/CalculateTaskOrder";
 
 const BoardComponent = memo(({
-  tasks,
-  columns,
-  columnOrder,
-  currentPage,
-  onNextPage,
-  onPrevPage,
-  pages,
-  changeTaskStatus,
-  prevOrds,
-  nextOrds,
-  refetch
+  dataProps,
+  paginationProps,
+  callbackProps
 }) => {
+  const { tasks, columns, columnOrder, prevOrds, nextOrds } = dataProps;
+  const { currentPage, onNextPage, onPrevPage, pages } = paginationProps;
+  const { changeTaskStatus, refetch } = callbackProps;
+
   const [data, setData] = useState({
     tasks: {},
     columns: {},
@@ -99,92 +97,6 @@ const BoardComponent = memo(({
       return;
     }
 
-    const sendChangeOrderRequest = async (questId, newOrd) => {
-      const apiURL = process.env.REACT_APP_API_URL;
-      const formData = new FormData();
-      formData.append("id", questId);
-      formData.append("ord", newOrd);
-      try {
-        const response = await axios.post(
-          `${apiURL}/change-quest-ord`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            withCredentials: true,
-          }
-        );
-
-        const data = response.data;
-        console.log(response);
-        if (response.status !== 200) {
-          throw new Error(data.error);
-        }
-        console.log(data);
-        return true;
-      } catch (error) {
-        console.error(error.response.data);
-        return false;
-      }
-    };
-
-    const calculateTaskOrder = (
-      newState,
-      columnName,
-      destinationCol,
-      taskIndex
-    ) => {
-      if (taskIndex === 0 && taskIndex === destinationCol.taskIds.length - 1) {
-        if (prevOrds[columnName] === null) {
-          return LexoRank.min().genNext();
-        }
-        let prevOrd = LexoRank.parse(prevOrds[columnName]);
-        let nextOrd = LexoRank.min();
-        let newOrd = prevOrd.between(nextOrd);
-        return newOrd;
-      }
-      if (taskIndex === 0) {
-        if (prevOrds[columnName] === null) {
-          let nextQuestId = destinationCol.taskIds[taskIndex + 1];
-          let nextQuest = newState.tasks[nextQuestId];
-          let nextOrd = LexoRank.parse(nextQuest["ord"]);
-          let newOrd = nextOrd.genNext();
-          return newOrd;
-        }
-
-        let prevOrd = LexoRank.parse(prevOrds[columnName]);
-        let nextQuestId = destinationCol.taskIds[taskIndex + 1];
-        let nextQuest = newState.tasks[nextQuestId];
-        let nextOrd = LexoRank.parse(nextQuest["ord"]);
-        let newOrd = prevOrd.between(nextOrd);
-        return newOrd;
-      }
-      if (taskIndex === destinationCol.taskIds.length - 1) {
-        let nextOrd = LexoRank.min();
-        if (nextOrds[columnName] !== null) {
-          nextOrd = LexoRank.parse(nextOrds[columnName]);
-        }
-        console.log("nextOrd", nextOrd);
-        let prevQuestId = destinationCol.taskIds[taskIndex - 1];
-        let prevQuest = newState.tasks[prevQuestId];
-        let prevOrd = LexoRank.parse(prevQuest["ord"]);
-        let newOrd = prevOrd.between(nextOrd);
-        return newOrd;
-      }
-      let prevQuestId = destinationCol.taskIds[taskIndex - 1];
-      let prevQuest = newState.tasks[prevQuestId];
-
-      let nextQuestId = destinationCol.taskIds[taskIndex + 1];
-      let nextQuest = newState.tasks[nextQuestId];
-
-      let prevOrd = LexoRank.parse(prevQuest["ord"]);
-      let nextOrd = LexoRank.parse(nextQuest["ord"]);
-      let newOrd = prevOrd.between(nextOrd);
-
-      return newOrd;
-    };
-
     const changeTaskOrder = async (newState) => {
       let columnName = destination.droppableId;
       let destinationCol = newState.columns[columnName];
@@ -195,7 +107,9 @@ const BoardComponent = memo(({
         newState,
         columnName,
         destinationCol,
-        taskIndex
+        taskIndex,
+        prevOrds,
+        nextOrds
       );
       await sendChangeOrderRequest(questId, newOrd);
       refetch({cancelRefetch:true});
@@ -256,9 +170,14 @@ const BoardComponent = memo(({
     changeTaskStatus(draggableId, destination.droppableId);
   };
 
-  const addQuest = (columnId) => {
+  const PopulateDataOnAddQuest = (columnId) => {
     $("#quest-add-status").text(`${columnId}`).css({ "background-color": statusToColor[columnId]});;
   };
+
+  const onTaskClick = (task) => {
+    console.log("onTaskClick", task);
+    $("#editQuestModal").show();
+  }
 
   return (
     <>
@@ -274,7 +193,8 @@ const BoardComponent = memo(({
                   key={column.id}
                   column={column}
                   tasks={tasks}
-                  onAddQuest={addQuest}
+                  onAddQuest={PopulateDataOnAddQuest}
+                  onTaskClick={onTaskClick}
                 />
               );
             })}
@@ -290,6 +210,7 @@ const BoardComponent = memo(({
         </div>
       </div>
       <AddQuestModal getNewOrder={getNewOrder} addNewQuestToBoard={addNewQuestToBoard}/>
+      <EditQuestModal/>
     </>
   );
 });

@@ -3,12 +3,18 @@ import { Draggable } from "react-beautiful-dnd";
 import "../../../styles/Home/Task.css";
 import difficultyToColor from "../../../helpers/DifficultyToColor";
 
-const DraggableTask = ({ task, index }) => {
+const DraggableTask = ({ task, index, onTaskClick }) => {
+
+  const handleClick = () => {
+    onTaskClick(task);
+  }
+
   return (
     <Draggable key={task.id} draggableId={task.id} index={index}>
       {(provided, snapshot) => (
         <div
           className="task"
+          onClick={handleClick}
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
@@ -28,6 +34,6 @@ const DraggableTask = ({ task, index }) => {
       )}
     </Draggable>
   );
-};
+}
 
 export default DraggableTask;

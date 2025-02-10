@@ -1,12 +1,17 @@
 import React, {  } from "react";
 import "../../../styles/Home/Board.css";
+import $ from 'jquery';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const EditQuestModal = () => {
+  const handleClose = () => {
+    $("#editQuestModal").hide();
+  }
+
   return (
     <>
-      <div className="modal custom-modal" id="addQuestModal" tabIndex="-1">
+      <div className="modal custom-modal" id="editQuestModal" tabIndex="-1">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content custom-modal-content">
             <div className="modal-header border-0 custom-quest-modal-header d-flex flex-column">
@@ -20,6 +25,7 @@ const EditQuestModal = () => {
                     type="button"
                     className="btn btn-secondary custom-quest-close-button"
                     data-bs-dismiss="modal"
+                    onClick={handleClose}
                   >
                     Close
                   </button>
@@ -36,7 +42,7 @@ const EditQuestModal = () => {
                 style={{ width: "100%" }}
               >
                 <div className="m-2"></div>
-                <label for="quest-title-input" className="fw-bold">
+                <label htmlFor="quest-title-input" className="fw-bold">
                   Title*
                 </label>
                 <input
@@ -47,7 +53,7 @@ const EditQuestModal = () => {
                   placeholder="Add a title"
                 />
                 <div className="m-2"></div>
-                <label for="quest-note-input" className="fw-bold">
+                <label htmlFor="quest-note-input" className="fw-bold">
                   Note
                 </label>
                 <textarea
@@ -66,7 +72,7 @@ const EditQuestModal = () => {
                 style={{ width: "100%" }}
               >
                 <div className="m-2"></div>
-                <label for="quest-difficulty-input" className="fw-bold">
+                <label htmlFor="quest-difficulty-input" className="fw-bold">
                   Difficulty
                 </label>
                 <select name="quest-difficulty-input" id="quest-difficulty-input" className="custom-quest-body-input">

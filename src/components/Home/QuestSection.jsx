@@ -120,20 +120,32 @@ const QuestSection = memo(() => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
+  const dataProps = {
+    tasks: quests,
+    columns: columns,
+    columnOrder: columnOrder,
+    prevOrds:data.prev_ord,
+    nextOrds:data.next_ord
+  };
+
+  const paginationProps = {
+    currentPage:current_page,
+    onNextPage:handleNextPage,
+    onPrevPage:handlePrevPage,
+    pages:pages
+  };
+
+  const callbackProps = {
+    changeTaskStatus:changeTaskStatus,
+    refetch:refetch
+  };
+
   return (
     <div className="quest-section">
       <BoardComponent
-        tasks={quests}
-        columns={columns}
-        columnOrder={columnOrder}
-        currentPage={current_page}
-        onNextPage={handleNextPage}
-        onPrevPage={handlePrevPage}
-        pages={pages}
-        changeTaskStatus={changeTaskStatus}
-        prevOrds={data.prev_ord}
-        nextOrds={data.next_ord}
-        refetch={refetch}
+        dataProps={dataProps}
+        paginationProps={paginationProps}
+        callbackProps={callbackProps}
       />
     </div>
   );
