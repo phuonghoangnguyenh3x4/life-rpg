@@ -170,12 +170,17 @@ const BoardComponent = memo(({
     changeTaskStatus(draggableId, destination.droppableId);
   };
 
-  const PopulateDataOnAddQuest = (columnId) => {
+  const populateDataOnAddQuest = (columnId) => {
     $("#quest-add-status").text(`${columnId}`).css({ "background-color": statusToColor[columnId]});;
+  };
+
+  const populateDataOnEditQuest = (task) => {
+    $("#editQuestModal")
   };
 
   const onTaskClick = (task) => {
     console.log("onTaskClick", task);
+    populateDataOnEditQuest(task);
     $("#editQuestModal").show();
   }
 
@@ -193,7 +198,7 @@ const BoardComponent = memo(({
                   key={column.id}
                   column={column}
                   tasks={tasks}
-                  onAddQuest={PopulateDataOnAddQuest}
+                  onAddQuest={populateDataOnAddQuest}
                   onTaskClick={onTaskClick}
                 />
               );

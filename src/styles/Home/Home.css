@@ -31,8 +31,7 @@
 
 .custom-popover {
   z-index: 1020;
-  max-height: 100px;
-  max-width: 100px;
+  left:-0.7em !important;
 }
 
 .custom-dropdown {

@@ -47,7 +47,6 @@ const EditQuestModal = () => {
                 </label>
                 <input
                   type="text"
-                  id="quest-title-input"
                   name="quest-title"
                   className="custom-quest-header-input"
                   placeholder="Add a title"
@@ -58,7 +57,6 @@ const EditQuestModal = () => {
                 </label>
                 <textarea
                   type="text"
-                  id="quest-note-input"
                   name="quest-note"
                   className="custom-quest-header-input"
                   placeholder="Add notes"
@@ -75,7 +73,7 @@ const EditQuestModal = () => {
                 <label htmlFor="quest-difficulty-input" className="fw-bold">
                   Difficulty
                 </label>
-                <select name="quest-difficulty-input" id="quest-difficulty-input" className="custom-quest-body-input">
+                <select name="quest-difficulty-input" className="custom-quest-body-input">
                   <option value="Trivial">Trivial</option>
                   <option value="Easy">Easy</option>
                   <option value="Normal">Normal</option>
@@ -90,7 +88,7 @@ const EditQuestModal = () => {
                 icon={faTrash}
                 className="quest-delete-button-icon"
               />
-              <div id="quest-delete-button" className="quest-delete-button">
+              <div className="quest-delete-button">
                 Delete this Quest
               </div>
             </div>
