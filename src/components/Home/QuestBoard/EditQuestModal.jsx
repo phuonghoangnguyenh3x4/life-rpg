@@ -1,13 +1,54 @@
-import React, {  } from "react";
+import React, { useEffect, useState } from "react";
 import "../../../styles/Home/Board.css";
-import $ from 'jquery';
+import $ from "jquery";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import sendUpdateQuestRequest from "../../../requests/UpdateQuest";
 
-const EditQuestModal = () => {
+const EditQuestModal = ({ selectedQuest, updateQuestToBoard }) => {
+  const [quest, setQuest] = useState({
+    id: null,
+    name: "",
+    note: "",
+    difficulty: "Normal"
+  });
+
+  useEffect(() => {
+    if (selectedQuest) {
+      setQuest({
+        id: selectedQuest.id,
+        name: selectedQuest.name || "",
+        note: selectedQuest.note || "",
+        difficulty: selectedQuest.difficulty || "Normal"
+      });
+    }
+  }, [selectedQuest]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setQuest((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
   const handleClose = () => {
     $("#editQuestModal").hide();
-  }
+  };
+
+  const handleSave = async () => {
+    const formData = new FormData();
+    formData.append("id", quest.id);
+    formData.append("name", quest.name);
+    formData.append("note", quest.note);
+    formData.append("difficulty", quest.difficulty);
+
+    let updatedQuest = await sendUpdateQuestRequest(formData);
+    if (updatedQuest) {
+      updateQuestToBoard(updatedQuest);
+      handleClose();
+    }
+  };
 
   return (
     <>
@@ -32,6 +73,7 @@ const EditQuestModal = () => {
                   <button
                     type="button"
                     className="btn btn-primary custom-quest-save-button"
+                    onClick={handleSave}
                   >
                     Save
                   </button>
@@ -42,24 +84,23 @@ const EditQuestModal = () => {
                 style={{ width: "100%" }}
               >
                 <div className="m-2"></div>
-                <label className="fw-bold">
-                  Title*
-                </label>
+                <label className="fw-bold">Title*</label>
                 <input
                   type="text"
                   name="name"
                   className="custom-quest-header-input"
                   placeholder="Add a title"
+                  value={quest.name}
+                  onChange={handleChange}
                 />
                 <div className="m-2"></div>
-                <label className="fw-bold">
-                  Note
-                </label>
+                <label className="fw-bold">Note</label>
                 <textarea
-                  type="text"
                   name="note"
                   className="custom-quest-header-input"
                   placeholder="Add notes"
+                  value={quest.note}
+                  onChange={handleChange}
                 />
               </div>
               <div className="m-2"></div>
@@ -70,10 +111,13 @@ const EditQuestModal = () => {
                 style={{ width: "100%" }}
               >
                 <div className="m-2"></div>
-                <label className="fw-bold">
-                  Difficulty
-                </label>
-                <select name="difficulty" className="custom-quest-body-input">
+                <label className="fw-bold">Difficulty</label>
+                <select
+                  name="difficulty"
+                  className="custom-quest-body-input"
+                  value={quest.difficulty}
+                  onChange={handleChange}
+                >
                   <option value="Trivial">Trivial</option>
                   <option value="Easy">Easy</option>
                   <option value="Normal">Normal</option>
@@ -88,9 +132,7 @@ const EditQuestModal = () => {
                 icon={faTrash}
                 className="quest-delete-button-icon"
               />
-              <div className="quest-delete-button">
-                Delete this Quest
-              </div>
+              <div className="quest-delete-button">Delete this Quest</div>
             </div>
           </div>
         </div>

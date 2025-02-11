@@ -51,6 +51,8 @@ const calculateTaskOrder = (
       let nextQuestId = destinationCol.taskIds[taskIndex + 1];
       let nextQuest = newState.tasks[nextQuestId];
 
+      console.log("prevQuest", prevQuest);
+
       let prevOrd = LexoRank.parse(prevQuest["ord"]);
       let nextOrd = LexoRank.parse(nextQuest["ord"]);
       let newOrd = prevOrd.between(nextOrd);
