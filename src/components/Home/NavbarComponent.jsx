@@ -50,6 +50,7 @@ function NavbarComponent() {
 
     const closeDropdown = (event) => {
       if (
+        dropdown &&
         dropdownMenuRef.current &&
         !dropdownMenuRef.current.contains(event.target) &&
         !dropdownToggleRef.current.contains(event.target)

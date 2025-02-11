@@ -175,7 +175,9 @@ const BoardComponent = memo(({
   };
 
   const populateDataOnEditQuest = (task) => {
-    $("#editQuestModal")
+    $(`#editQuestModal input[name="name"]`).val(task.name);
+    $(`#editQuestModal textarea[name="note"]`).val(task.note);
+    $(`#editQuestModal select[name="difficulty"]`).val(task.difficulty);
   };
 
   const onTaskClick = (task) => {

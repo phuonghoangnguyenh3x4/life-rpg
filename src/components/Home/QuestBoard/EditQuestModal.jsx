@@ -42,22 +42,22 @@ const EditQuestModal = () => {
                 style={{ width: "100%" }}
               >
                 <div className="m-2"></div>
-                <label htmlFor="quest-title-input" className="fw-bold">
+                <label className="fw-bold">
                   Title*
                 </label>
                 <input
                   type="text"
-                  name="quest-title"
+                  name="name"
                   className="custom-quest-header-input"
                   placeholder="Add a title"
                 />
                 <div className="m-2"></div>
-                <label htmlFor="quest-note-input" className="fw-bold">
+                <label className="fw-bold">
                   Note
                 </label>
                 <textarea
                   type="text"
-                  name="quest-note"
+                  name="note"
                   className="custom-quest-header-input"
                   placeholder="Add notes"
                 />
@@ -70,10 +70,10 @@ const EditQuestModal = () => {
                 style={{ width: "100%" }}
               >
                 <div className="m-2"></div>
-                <label htmlFor="quest-difficulty-input" className="fw-bold">
+                <label className="fw-bold">
                   Difficulty
                 </label>
-                <select name="quest-difficulty-input" className="custom-quest-body-input">
+                <select name="difficulty" className="custom-quest-body-input">
                   <option value="Trivial">Trivial</option>
                   <option value="Easy">Easy</option>
                   <option value="Normal">Normal</option>
