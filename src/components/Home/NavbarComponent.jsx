@@ -22,7 +22,6 @@ function NavbarComponent() {
       if (response.status !== 200) {
         throw new Error(data.error);
       }
-      console.log(data);
       return true;
     } catch (error) {
       if (error.response.status === 401) {

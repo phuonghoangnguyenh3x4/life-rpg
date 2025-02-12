@@ -10,7 +10,8 @@ import statusToColor from "../../../helpers/StatusToColor";
 import PaginationControl from "./PaginationControl";
 import handleDragEnd from "../../../helpers/Board/HandleDragEnd";
 import addNewQuestToBoardHelper from "../../../helpers/Board/AddNewQuestToBoard";
-import updateQuestToBoardHelper from "../../../helpers/Board/UpdateQuestToBoardHelper";
+import updateQuestToBoardHelper from "../../../helpers/Board/UpdateQuestToBoard";
+import deleteQuestOnBoardHelper from "../../../helpers/Board/DeleteQuestOnBoard";
 
 const BoardComponent = memo(({
   dataProps,
@@ -44,6 +45,11 @@ const BoardComponent = memo(({
 
   const updateQuestToBoard = (updatedQuest) => {
     updateQuestToBoardHelper(updatedQuest, context);
+  }
+
+
+  const deleteQuestOnBoard = (deletedQuest) => {
+    deleteQuestOnBoardHelper(deletedQuest, context);
   }
 
   const getNewOrder = (columnId) => {
@@ -87,7 +93,7 @@ const BoardComponent = memo(({
         <PaginationControl paginationProps={paginationProps}/>
       </div>
       <AddQuestModal getNewOrder={getNewOrder} addNewQuestToBoard={addNewQuestToBoard}/>
-      <EditQuestModal selectedQuest={selectedQuest} updateQuestToBoard={updateQuestToBoard} />
+      <EditQuestModal selectedQuest={selectedQuest} updateQuestToBoard={updateQuestToBoard} deleteQuestOnBoard={deleteQuestOnBoard}/>
     </>
   );
 });

@@ -4,12 +4,14 @@ import $ from "jquery";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import sendUpdateQuestRequest from "../../../requests/UpdateQuest";
+import sendDeleteQuestRequest from "../../../requests/DeleteQuest";
 
-const EditQuestModal = ({ selectedQuest, updateQuestToBoard }) => {
+const EditQuestModal = ({ selectedQuest, updateQuestToBoard, deleteQuestOnBoard }) => {
   const [quest, setQuest] = useState({
     id: null,
     name: "",
     note: "",
+    status: "Todo",
     difficulty: "Normal"
   });
 
@@ -19,6 +21,7 @@ const EditQuestModal = ({ selectedQuest, updateQuestToBoard }) => {
         id: selectedQuest.id,
         name: selectedQuest.name || "",
         note: selectedQuest.note || "",
+        status: selectedQuest.status || "Todo",
         difficulty: selectedQuest.difficulty || "Normal"
       });
     }
@@ -30,6 +33,14 @@ const EditQuestModal = ({ selectedQuest, updateQuestToBoard }) => {
       ...prevData,
       [name]: value
     }));
+  };
+
+  const handleDelete = async () => {
+    let success = await sendDeleteQuestRequest(quest.id);
+    if (success) {
+      deleteQuestOnBoard(quest);
+      handleClose();
+    }
   };
 
   const handleClose = () => {
@@ -132,7 +143,7 @@ const EditQuestModal = ({ selectedQuest, updateQuestToBoard }) => {
                 icon={faTrash}
                 className="quest-delete-button-icon"
               />
-              <div className="quest-delete-button">Delete this Quest</div>
+              <div className="quest-delete-button" onClick={handleDelete}>Delete this Quest</div>
             </div>
           </div>
         </div>

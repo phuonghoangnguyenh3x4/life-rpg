@@ -38,7 +38,6 @@ const calculateTaskOrder = (
         if (nextOrds[columnName] !== null) {
           nextOrd = LexoRank.parse(nextOrds[columnName]);
         }
-        console.log("nextOrd", nextOrd);
         let prevQuestId = destinationCol.taskIds[taskIndex - 1];
         let prevQuest = newState.tasks[prevQuestId];
         let prevOrd = LexoRank.parse(prevQuest["ord"]);
@@ -50,8 +49,6 @@ const calculateTaskOrder = (
 
       let nextQuestId = destinationCol.taskIds[taskIndex + 1];
       let nextQuest = newState.tasks[nextQuestId];
-
-      console.log("prevQuest", prevQuest);
 
       let prevOrd = LexoRank.parse(prevQuest["ord"]);
       let nextOrd = LexoRank.parse(nextQuest["ord"]);
