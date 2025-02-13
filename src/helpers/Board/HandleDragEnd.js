@@ -36,8 +36,22 @@ const handleDragEnd = async (
       prevOrds,
       nextOrds
     );
+
     await sendChangeOrderRequest(questId, newOrd);
     refetch({ cancelRefetch: true });
+    let updatedTask = newState.tasks[questId];
+    console.log("newState", newState);
+    console.log("taskIndex", questId);
+    console.log("updatedTask", updatedTask);
+    updatedTask['ord'] = newOrd.toString();
+
+    setData({
+      ...newState,
+      tasks: {
+        ...newState.tasks,
+        [taskIndex]: updatedTask,
+      },
+    });
   };
 
   const start = data.columns[source.droppableId];
@@ -61,8 +75,8 @@ const handleDragEnd = async (
       },
     };
 
-    changeTaskOrder(newState);
     setData(newState);
+    changeTaskOrder(newState);
     return;
   }
 

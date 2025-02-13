@@ -23,7 +23,6 @@ const QuestSection = memo(() => {
         console.log("data.error", data.error);
         throw new Error(data.error);
       }
-      console.log("data", data);
       return data;
     } catch (error) {
       console.error(error.response.data);

@@ -21,8 +21,11 @@ const calculateTaskOrder = (
         if (prevOrds[columnName] === null) {
           let nextQuestId = destinationCol.taskIds[taskIndex + 1];
           let nextQuest = newState.tasks[nextQuestId];
+          console.log("nextQuest", nextQuest);
           let nextOrd = LexoRank.parse(nextQuest["ord"]);
+          console.log("nextOrd", nextOrd);
           let newOrd = nextOrd.genNext();
+          console.log("newOrd", newOrd);
           return newOrd;
         }
 
