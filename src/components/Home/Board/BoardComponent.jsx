@@ -1,73 +1,38 @@
-import React, { useState, useEffect, memo } from "react";
+import React, { memo } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import DroppableColumn from "./DroppableColumn";
 import "../../../styles/Home/Board.css";
-import getNewOrderHelper from "../../../helpers/Board/GetNewOrder";
 import AddQuestModal from "./AddQuestModal";
 import EditQuestModal from "./EditQuestModal";
 import $ from 'jquery';
 import statusToColor from "../../../helpers/StatusToColor";
 import PaginationControl from "./PaginationControl";
-import handleDragEnd from "../../../helpers/Board/HandleDragEnd";
-import addNewQuestToBoardHelper from "../../../helpers/Board/AddNewQuestToBoard";
-import updateQuestToBoardHelper from "../../../helpers/Board/UpdateQuestToBoard";
-import deleteQuestOnBoardHelper from "../../../helpers/Board/DeleteQuestOnBoard";
+import useBoardState from "../../../hooks/Home/Board/useBoardState";
+import useQuestOperations from "../../../hooks/Home/Board/useQuestOperations";
+import useSelectedQuest from "../../../hooks/Home/Board/useSelectedQuest";
 
 const BoardComponent = memo(({
   dataProps,
   paginationProps,
   callbackProps
 }) => {
-  const { tasks, columns, columnOrder, prevOrds, nextOrds } = dataProps;
-  const { currentPage, onNextPage, onPrevPage, pages } = paginationProps;
-  const { changeTaskStatus, refetch } = callbackProps;
+  const { currentPage } = paginationProps;
 
-  const [data, setData] = useState({
-    tasks: {},
-    columns: {},
-    columnOrder: []
-  });
+  const { data, setData } = useBoardState(dataProps, currentPage);
+  const context = {dataProps, paginationProps, callbackProps };
+  const {
+    addNewQuestToBoard,
+    updateQuestToBoard,
+    deleteQuestOnBoard,
+    getNewOrder,
+    onDragEnd
+  } = useQuestOperations({ ...context, data, setData });
 
-  useEffect(() => {
-    setData({
-      tasks: tasks,
-      columns: columns,
-      columnOrder: columnOrder
-    });
-  }, [currentPage]);
-
-  const [selectedQuest, setSelectedQuest] = useState(null);
-  const context = {dataProps, paginationProps, callbackProps, data, setData};
-
-  const addNewQuestToBoard = (newQuest) => {
-    addNewQuestToBoardHelper(newQuest, context);
-  }
-
-  const updateQuestToBoard = (updatedQuest) => {
-    updateQuestToBoardHelper(updatedQuest, context);
-  }
-
-
-  const deleteQuestOnBoard = (deletedQuest) => {
-    deleteQuestOnBoardHelper(deletedQuest, context);
-  }
-
-  const getNewOrder = (columnId) => {
-    return getNewOrderHelper(columnId, context);
-  }
-
-  const onDragEnd = async (result) => {
-    handleDragEnd(result, context);
-  }
+  const { selectedQuest, onTaskClick } = useSelectedQuest();
 
   const populateDataOnAddQuest = (columnId) => {
     $("#quest-add-status").text(`${columnId}`).css({ "background-color": statusToColor[columnId]});
   };
-
-  const onTaskClick = (task) => {
-    setSelectedQuest(task);
-    $("#editQuestModal").show();
-  }
 
   return (
     <>
