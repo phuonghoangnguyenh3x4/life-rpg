@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import DroppableColumn from "./DroppableColumn";
 import "../../../styles/Home/Board.css";
@@ -11,14 +11,16 @@ import useBoardState from "../../../hooks/Home/Board/useBoardState";
 import useQuestOperations from "../../../hooks/Home/Board/useQuestOperations";
 import useSelectedQuest from "../../../hooks/Home/Board/useSelectedQuest";
 
-const BoardComponent = memo(({
+const BoardComponent = ({
   dataProps,
   paginationProps,
   callbackProps
 }) => {
   const { currentPage } = paginationProps;
+  const { refetch } = callbackProps;
 
-  const { data, setData } = useBoardState(dataProps, currentPage);
+  const { data, setData } = useBoardState(dataProps, currentPage, refetch);
+
   const context = {dataProps, paginationProps, callbackProps };
   const {
     addNewQuestToBoard,
@@ -61,6 +63,6 @@ const BoardComponent = memo(({
       <EditQuestModal selectedQuest={selectedQuest} updateQuestToBoard={updateQuestToBoard} deleteQuestOnBoard={deleteQuestOnBoard}/>
     </>
   );
-});
+};
 
 export default BoardComponent;

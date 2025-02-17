@@ -40,9 +40,6 @@ const handleDragEnd = async (
     await sendChangeOrderRequest(questId, newOrd);
     refetch({ cancelRefetch: true });
     let updatedTask = newState.tasks[questId];
-    console.log("newState", newState);
-    console.log("taskIndex", questId);
-    console.log("updatedTask", updatedTask);
     updatedTask['ord'] = newOrd.toString();
 
     setData({

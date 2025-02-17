@@ -31,8 +31,6 @@ const useFetchQuests = (current_page) => {;
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["quests", current_page],
     queryFn: () => fetchQuests(current_page),
-    staleTime: 0,
-    cacheTime: 0
   });
 
   return { data, error, isLoading, refetch };

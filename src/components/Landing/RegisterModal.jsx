@@ -26,7 +26,7 @@ function RegisterModal() {
     formData.append("email", email);
     formData.append("password", password);
     try {
-      const response = await axios.post(`${apiURL}/create-account`, formData, {
+      const response = await axios.post(`${apiURL}/auth/create-account`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         },

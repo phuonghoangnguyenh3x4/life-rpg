@@ -9,7 +9,7 @@ export function AuthProvider({ children }) {
 
   const checkAuthStatus = async () => {
     try {
-      const response = await axios.get(`${apiURL}/check-auth`, { withCredentials: true });
+      const response = await axios.get(`${apiURL}/auth/check-auth`, { withCredentials: true });
       console.log(response);
       setIsAuthenticated(response.status === 200);
     } catch (error) {

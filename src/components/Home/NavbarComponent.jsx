@@ -14,7 +14,7 @@ function NavbarComponent() {
   const sendLogOutRequest = async () => {
     try {
       let response = await axios.post(
-        `${apiURL}/logout`,
+        `${apiURL}/auth/logout`,
         {},
         { withCredentials: true }
       );
@@ -22,6 +22,7 @@ function NavbarComponent() {
       if (response.status !== 200) {
         throw new Error(data.error);
       }
+      console.log('logout successfully');
       return true;
     } catch (error) {
       if (error.response.status === 401) {
@@ -34,16 +35,21 @@ function NavbarComponent() {
 
   const handleLogOut = async () => {
     let success = await sendLogOutRequest();
-    if (success) logout();
+    if (success) {
+      logout();
+    } 
   };
 
   useEffect(() => {
-    let popover = new Popover(userIconRef.current, {
+    let popover = Popover.getInstance(userIconRef.current);
+    if (!popover) {
+      popover = new Popover(userIconRef.current, {
         customClass: "custom-popover",
         content: "User",
         trigger: "hover",
         placement: "bottom",
       });
+    }
 
     let dropdown = Dropdown.getInstance(dropdownToggleRef.current);
 
@@ -61,10 +67,7 @@ function NavbarComponent() {
     document.addEventListener("click", closeDropdown);
 
     return () => {
-      if (popover) popover.dispose();
       if (dropdown) dropdown.dispose();
-
-      document.removeEventListener("click", closeDropdown);
     };
   }, []);
 

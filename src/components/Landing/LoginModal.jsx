@@ -26,7 +26,7 @@ function LoginModal() {
     formData.append("password", password);
 
     try {
-      const response = await axios.post(`${apiURL}/login`, formData, {
+      const response = await axios.post(`${apiURL}/auth/login`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -37,7 +37,6 @@ function LoginModal() {
         console.log("data.error", data.error);
         throw new Error(data.error);
       }
-      console.log(data);
       return true;
     } catch (error) {
       console.error(error.response.data);
