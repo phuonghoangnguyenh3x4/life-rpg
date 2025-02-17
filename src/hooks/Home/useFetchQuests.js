@@ -9,7 +9,7 @@ const useFetchQuests = (current_page) => {;
     const apiURL = process.env.REACT_APP_API_URL;
 
     try {
-      const response = await axios.get(`${apiURL}/get-quest`, {
+      const response = await axios.get(`${apiURL}/quest/get-quest`, {
         params: { page: page },
         withCredentials: true,
       });

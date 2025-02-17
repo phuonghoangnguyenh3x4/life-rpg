@@ -7,7 +7,7 @@ const sendChangeOrderRequest = async (questId, newOrd) => {
     formData.append("ord", newOrd);
     try {
       const response = await axios.post(
-        `${apiURL}/change-quest-ord`,
+        `${apiURL}/quest/change-quest-ord`,
         formData,
         {
           headers: {

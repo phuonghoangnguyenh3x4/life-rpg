@@ -6,7 +6,7 @@ const sendDeleteQuestRequest = async (questId) => {
     const formData = new FormData();
     formData.append("id", questId);
 
-    const response = await axios.post(`${apiURL}/delete-quest`, formData, {
+    const response = await axios.post(`${apiURL}/quest/delete-quest`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

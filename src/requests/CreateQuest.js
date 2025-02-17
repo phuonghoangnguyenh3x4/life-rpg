@@ -3,7 +3,7 @@ import axios from "axios";
 const sendCreateQuestRequest = async (formData) => {
   try {
     const apiURL = process.env.REACT_APP_API_URL;
-    const response = await axios.post(`${apiURL}/create-quest`, formData, {
+    const response = await axios.post(`${apiURL}/quest/create-quest`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

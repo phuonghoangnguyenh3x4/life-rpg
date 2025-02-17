@@ -10,7 +10,7 @@ export const PlayerProvider = ({ children }) => {
     const apiURL = process.env.REACT_APP_API_URL;
 
     try {
-      const response = await axios.get(`${apiURL}/get-player`, {
+      const response = await axios.get(`${apiURL}/player/get-player`, {
         withCredentials: true,
       });
       const data = response.data;

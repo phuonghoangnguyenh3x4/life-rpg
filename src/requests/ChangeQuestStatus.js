@@ -8,7 +8,7 @@ const sendChangeStatusRequest = async (taskId, newStatus) => {
 
   try {
     const response = await axios.post(
-      `${apiURL}/change-quest-status`,
+      `${apiURL}/quest/change-quest-status`,
       formData,
       {
         headers: {
