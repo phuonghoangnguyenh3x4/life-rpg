@@ -1,14 +1,14 @@
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { Popover, Dropdown } from "bootstrap/dist/js/bootstrap.min.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import { useAuth } from "../../context/AuthContext";
+import useAuth from "../../hooks/useAuth";
 
 function NavbarComponent() {
   const userIconRef = useRef(null);
   const dropdownToggleRef = useRef(null);
   const dropdownMenuRef = useRef(null);
-  const apiURL = process.env.REACT_APP_API_URL;
+  const apiURL = import.meta.env.VITE_APP_API_URL;
   const { logout, checkAuthStatus } = useAuth();
 
   const sendLogOutRequest = async () => {

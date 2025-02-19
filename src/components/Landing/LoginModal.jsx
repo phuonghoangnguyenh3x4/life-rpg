@@ -1,11 +1,11 @@
 import AuthenticationForm from "./AuthenticationForm";
 import $ from "jquery";
-import { useAuth } from "../../context/AuthContext";
+import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function LoginModal() {
-  const apiURL = process.env.REACT_APP_API_URL;
+  const apiURL = import.meta.env.VITE_APP_API_URL;
   const { login } = useAuth();
   const navigate = useNavigate();
 

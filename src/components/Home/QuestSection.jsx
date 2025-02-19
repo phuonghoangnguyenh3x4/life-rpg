@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { PlayerContext } from "../../context/PlayerContext";
 import BoardComponent from "./Board/BoardComponent";
 import useFetchQuests from "../../hooks/Home/useFetchQuests";
@@ -9,7 +9,7 @@ import transformQuests from "../../helpers/Home/TransformQuests";
 const QuestSection = () => {
   const { currentPage, handleNextPage, handlePrevPage } = usePagination();
   const { getPlayerInfo } = useContext(PlayerContext);
-  const { data, error, isLoading, refetch } = useFetchQuests(currentPage);
+  const { data, error, isLoading, isError, refetch } = useFetchQuests(currentPage);
 
   const changeTaskStatus = async (taskId, newStatus) => {
     let success = await sendChangeStatusRequest(taskId, newStatus);
@@ -20,7 +20,9 @@ const QuestSection = () => {
   };
 
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  if (isError) return <div>Error: {error.message}</div>;
+  
+  const transformData = transformQuests(data);
 
   const {
     quests,
@@ -29,8 +31,9 @@ const QuestSection = () => {
     prevOrds,
     nextOrds,
     pages
-  } = transformQuests(data);
+  } = transformData;
 
+  
   const dataProps = {
     tasks: quests,
     columns: columns,

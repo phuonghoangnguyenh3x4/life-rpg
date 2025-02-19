@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const sendChangeStatusRequest = async (taskId, newStatus) => {
-  const apiURL = process.env.REACT_APP_API_URL;
+  const apiURL = import.meta.env.VITE_APP_API_URL;
   const formData = new FormData();
   formData.append("id", taskId);
   formData.append("status", newStatus);

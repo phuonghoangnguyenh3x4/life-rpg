@@ -1,10 +1,11 @@
-import React, { useState, createContext, useContext, useEffect } from 'react';
+import { useState, createContext, useEffect } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const apiURL = process.env.REACT_APP_API_URL;
+  const apiURL = import.meta.env.VITE_APP_API_URL;
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const checkAuthStatus = async () => {
@@ -37,4 +38,7 @@ export function AuthProvider({ children }) {
   );
 }
 
-export const useAuth = () => useContext(AuthContext);
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+export { AuthContext };

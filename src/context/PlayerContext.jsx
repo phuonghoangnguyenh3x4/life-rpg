@@ -7,7 +7,7 @@ export const PlayerProvider = ({ children }) => {
   const [player, setPlayer] = useState(null);
   
   const getPlayerInfo = async () => {
-    const apiURL = process.env.REACT_APP_API_URL;
+    const apiURL = import.meta.env.VITE_APP_API_URL;
 
     try {
       const response = await axios.get(`${apiURL}/player/get-player`, {

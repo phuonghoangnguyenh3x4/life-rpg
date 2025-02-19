@@ -2,11 +2,11 @@ import AuthenticationForm from "./AuthenticationForm";
 import FloatingInput from "../FloatingInput";
 import $ from "jquery";
 import registerValidationSchema from "../../validation/RegisterValidationSchema";
-import { useAuth } from '../../context/AuthContext';
+import useAuth from '../../hooks/useAuth';
 import axios from 'axios';
 
 function RegisterModal() {
-  const apiURL = process.env.REACT_APP_API_URL;
+  const apiURL = import.meta.env.VITE_APP_API_URL;
   const {login} = useAuth();
 
   const showErrorToast = (delay=4000) => {

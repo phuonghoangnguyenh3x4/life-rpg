@@ -2,7 +2,7 @@ import axios from "axios";
 
 const sendDeleteQuestRequest = async (questId) => {
   try {
-    const apiURL = process.env.REACT_APP_API_URL;
+    const apiURL = import.meta.env.VITE_APP_API_URL;
     const formData = new FormData();
     formData.append("id", questId);
 
