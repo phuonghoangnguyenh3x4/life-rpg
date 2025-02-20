@@ -24,7 +24,7 @@
   }
   
   .player-level.celebrate {
-    animation: celebrate 1s ease-in-out;
+    animation: celebrate 1s ease-in-out forwards;
     position: relative;
   }
   
@@ -40,7 +40,7 @@
     content: "🎉";
     position: absolute;
     right: -30px;
-    animation: sparkle 1s ease-out;
+    animation: sparkle 1s ease-out forwards;
   }
   
   @keyframes sparkle {

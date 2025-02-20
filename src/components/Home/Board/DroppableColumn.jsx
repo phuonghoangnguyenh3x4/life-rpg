@@ -1,4 +1,3 @@
-import React from "react";
 import { StrictModeDroppable } from "./StrictModeDroppable";
 import DraggableTask from "./DraggableTask";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

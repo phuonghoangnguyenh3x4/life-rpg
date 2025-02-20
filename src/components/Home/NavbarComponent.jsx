@@ -44,7 +44,7 @@ function NavbarComponent() {
     let popover = Popover.getInstance(userIconRef.current);
     if (!popover) {
       popover = new Popover(userIconRef.current, {
-        customClass: "custom-popover",
+        customClass: "custom-popover text-light",
         content: "User",
         trigger: "hover",
         placement: "bottom",
@@ -86,10 +86,10 @@ function NavbarComponent() {
         </a>
         <div className="navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav">
-            <a className="nav-link custom-navlink active" href="#">
+            <a className="nav-link custom-navlink active text-light" href="#">
               Quest
             </a>
-            <a className="nav-link custom-navlink" href="#">
+            <a className="nav-link custom-navlink text-light" href="#">
               Inventory
             </a>
           </div>

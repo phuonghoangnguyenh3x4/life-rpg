@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { PlayerContext } from "../../context/PlayerContext";
 import "../../styles/Home/ProfileSection.css";
 
@@ -43,7 +43,6 @@ const ProfileSection = () => {
     setLevelStyle({
       color: `hsl(${hue}, 80%, 60%)`,
       textShadow: `0 0 ${shadowSize}px hsl(${hue}, 80%, 60%)`,
-      transform: `rotate(${(level % 360) * 0.1}deg)`,
       fontSize: `${Math.min(fontSize, 3)}rem`,
       display: 'inline-block',
       transition: 'all 0.3s ease'
