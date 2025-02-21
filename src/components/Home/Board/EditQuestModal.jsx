@@ -63,6 +63,7 @@ const EditQuestModal = ({ selectedQuest, updateQuestToBoard, deleteQuestOnBoard 
     if (updatedQuest) {
       updateQuestToBoard(updatedQuest);
       handleClose();
+      await getPlayerInfo(); 
     }
   };
 
