@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/prop-types */
+import { useEffect, useState, useContext } from "react";
 import "../../../styles/Home/Board.css";
 import $ from "jquery";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import sendUpdateQuestRequest from "../../../requests/UpdateQuest";
 import sendDeleteQuestRequest from "../../../requests/DeleteQuest";
+import { PlayerContext } from "../../../context/PlayerContext";
 
 const EditQuestModal = ({ selectedQuest, updateQuestToBoard, deleteQuestOnBoard }) => {
   const [quest, setQuest] = useState({
@@ -14,6 +16,8 @@ const EditQuestModal = ({ selectedQuest, updateQuestToBoard, deleteQuestOnBoard 
     status: "Todo",
     difficulty: "Normal"
   });
+
+  const { getPlayerInfo } = useContext(PlayerContext);
 
   useEffect(() => {
     if (selectedQuest) {
@@ -40,6 +44,7 @@ const EditQuestModal = ({ selectedQuest, updateQuestToBoard, deleteQuestOnBoard 
     if (success) {
       deleteQuestOnBoard(quest);
       handleClose();
+      await getPlayerInfo(); 
     }
   };
 
