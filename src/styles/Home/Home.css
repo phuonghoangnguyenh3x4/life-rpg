@@ -44,7 +44,8 @@
 .custom-dropdown {
   top: 2rem !important;
   width: 20vw;
-  border-radius: 0%;
+  border-radius: 0.5rem;
+  border: thin solid white;
   background-color: #181a1b;
 }
 
@@ -77,9 +78,25 @@
   font-weight: bold;
 }
 
+.glowing-border {
+  border: 1px solid #4195fc; /* some kind of blue border */
+
+    /* other CSS styles */
+
+    /* round the corners */
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+
+
+    /* make it glow! */
+    -webkit-box-shadow: 0px 0px 4px #4195fc;
+       -moz-box-shadow: 0px 0px 4px #4195fc;
+            box-shadow: 0px 0px 4px #4195fc;
+}
+
 .player-progress-bar {
   margin: 0.3rem;
-  border-radius: 0%;
   background-color: rgb(60, 60, 60); /* Change this to a complementary color if needed */
 }
 
@@ -87,6 +104,7 @@
   background-color: rgb(0, 0, 0); /* Change this to a complementary color if needed */
   color: rgb(229, 51, 161);
   font-weight: bold;
+  font-size: 0.8rem;
 }
 
 .player-progress::after {

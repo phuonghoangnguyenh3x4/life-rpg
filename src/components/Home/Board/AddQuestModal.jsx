@@ -1,9 +1,13 @@
-import React from "react";
+import { useContext } from "react";
 import "../../../styles/Home/Board.css";
 import $ from "jquery";
 import sendCreateQuestRequest from "../../../requests/CreateQuest";
+import { PlayerContext } from "../../../context/PlayerContext";
 
+// eslint-disable-next-line react/prop-types
 const AddQuestModal = ({getNewOrder, addNewQuestToBoard}) => {
+  const { getPlayerInfo } = useContext(PlayerContext);
+
   const handleSave = () => {
     $("#addQuestSubmit").trigger("submit");
   };
@@ -20,6 +24,7 @@ const AddQuestModal = ({getNewOrder, addNewQuestToBoard}) => {
     if (newQuest) {
       addNewQuestToBoard(newQuest);
       $("#questAddCloseButton").trigger("click");
+      await getPlayerInfo(); 
     }
   }
 

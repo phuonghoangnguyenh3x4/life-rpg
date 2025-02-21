@@ -62,7 +62,7 @@ const ProfileSection = () => {
         </div>
         <div className="player-money">💰: {player?.money}💵</div>
         <div className="player-exp">⛏️: {player?.exp} exp</div>
-        <div className="progress player-progress-bar" role="progressbar">
+        <div className="progress player-progress-bar glowing-border" role="progressbar">
           <div
             className="progress-bar player-progress overflow-visible"
             style={{ width: `${progress}%` }}
