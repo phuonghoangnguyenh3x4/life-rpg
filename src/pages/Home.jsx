@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import "../styles/Home/Home.css";
 import { Modal } from "bootstrap/dist/js/bootstrap.min.js";
 import "bootstrap/dist/css/bootstrap.min.css";
-import NavbarComponent from "../components/Home/NavbarComponent.jsx";
+import NavbarComponent from "../components/Home/Navbar/NavbarComponent.jsx";
 import ProfileSection from "../components/Home/ProfileSection.jsx";
 import QuestSection from "../components/Home/QuestSection.jsx";
 import { PlayerProvider } from "../context/PlayerContext.jsx";

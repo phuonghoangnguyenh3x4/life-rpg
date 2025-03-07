@@ -1,5 +1,5 @@
-import React from "react";
 import "../../../styles/Home/Board.css";
+import PropTypes from "prop-types";
 
 const PaginationControl = ({ paginationProps }) => {
   return (
@@ -14,6 +14,15 @@ const PaginationControl = ({ paginationProps }) => {
       </div>
     </>
   );
+};
+
+PaginationControl.propTypes = {
+  paginationProps: PropTypes.shape({
+    currentPage: PropTypes.number.isRequired,
+    onNextPage: PropTypes.func.isRequired,
+    onPrevPage: PropTypes.func.isRequired,
+    pages: PropTypes.number.isRequired
+  }).isRequired
 };
 
 export default PaginationControl;
