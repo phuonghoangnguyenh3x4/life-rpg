@@ -7,6 +7,8 @@ function NavbarLinks() {
       <div className="navbar-nav">
         <Navlink text="Quest" active={true} />
         <Navlink text="Inventory" />
+        <Navlink text="Habit" />
+        <Navlink text="Bonus" />
       </div>
     </div>
   );
