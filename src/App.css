@@ -64,7 +64,6 @@ body {
   border: 2px solid var(--secondary-color);
 }
 
-
 @media (max-width: 400px) {
   .intro {
     display: none;

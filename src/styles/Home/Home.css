@@ -1,8 +1,10 @@
 .custom-navlink {
+  border-top: 0.3rem solid transparent;
+  border-bottom: 0.3rem solid transparent;
   color: var(--secondary-color);
   font-weight: bold;
   text-transform: uppercase;
-  padding: 1rem;
+  padding: 0.6rem;
 }
 
 .custom-navlink.active {
@@ -59,7 +61,8 @@
   padding-left: 1.5rem;
   display: flex;
   align-items: center;
-  height: 33vh;
+  height: auto;
+  flex-wrap: wrap;
   background-color: var(--profile-section-color);
 }
 

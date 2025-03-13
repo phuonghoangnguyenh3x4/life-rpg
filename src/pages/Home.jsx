@@ -3,7 +3,7 @@ import "../styles/Home/Home.css";
 import { Modal } from "bootstrap/dist/js/bootstrap.min.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavbarComponent from "../components/Home/Navbar/NavbarComponent.jsx";
-import ProfileSection from "../components/Home/ProfileSection.jsx";
+import ProfileSection from "../components/Home/ProfileSection/ProfileSection";
 import QuestSection from "../components/Home/QuestSection.jsx";
 import { PlayerProvider } from "../context/PlayerContext.jsx";
 import "../styles/Home/HomeBackground.css";

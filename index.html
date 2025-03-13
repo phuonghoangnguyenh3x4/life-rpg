@@ -12,6 +12,18 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <script>
+      // This script runs before React, ensuring dark mode is applied immediately
+      (function() {
+        const storedTheme = localStorage.getItem('ui-theme') || 'dark';
+        
+        if (storedTheme === 'dark' || 
+            (storedTheme === 'system' && 
+             window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
     <title>Life Rpg World</title>
   </head>
   <body>

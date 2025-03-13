@@ -1,49 +1,75 @@
 .profile-section {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 10px;
-    color: white;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  color: white;
+}
+
+.avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 2px solid gold;
+}
+
+.stat {
+  gap: 8px;
+}
+
+.progress-bar {
+  transition: width 0.5s ease-in-out;
+}
+
+.player-level.celebrate {
+  animation: celebrate 1s ease-in-out forwards;
+  position: relative;
+}
+
+@keyframes celebrate {
+  0% {
+    transform: scale(1) rotate(0deg);
   }
-  
-  .avatar {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    border: 2px solid gold;
+  25% {
+    transform: scale(1.5) rotate(10deg);
   }
-  
-  .stat {
-    gap: 8px;
+  50% {
+    transform: scale(1.5) rotate(-10deg);
   }
-  
-  .progress-bar {
-    transition: width 0.5s ease-in-out;
+  75% {
+    transform: scale(1.2) rotate(5deg);
   }
-  
-  .player-level.celebrate {
-    animation: celebrate 1s ease-in-out forwards;
-    position: relative;
+  100% {
+    transform: scale(1) rotate(0deg);
   }
-  
-  @keyframes celebrate {
-    0% { transform: scale(1) rotate(0deg); }
-    25% { transform: scale(1.5) rotate(10deg); }
-    50% { transform: scale(1.5) rotate(-10deg); }
-    75% { transform: scale(1.2) rotate(5deg); }
-    100% { transform: scale(1) rotate(0deg); }
+}
+
+.player-level.celebrate::after {
+  content: "🎉";
+  position: absolute;
+  right: -30px;
+  animation: sparkle 1s ease-out forwards;
+}
+
+@keyframes sparkle {
+  0% {
+    opacity: 1;
+    transform: scale(1);
   }
-  
-  .player-level.celebrate::after {
-    content: "🎉";
-    position: absolute;
-    right: -30px;
-    animation: sparkle 1s ease-out forwards;
+  100% {
+    opacity: 0;
+    transform: scale(2);
   }
-  
-  @keyframes sparkle {
-    0% { opacity: 1; transform: scale(1); }
-    100% { opacity: 0; transform: scale(2); }
-  }
+}
+
+#my-tooltip {
+  z-index: 9999 !important; /* Use a high value and !important */
+  transform: translateZ(0);
+}
+
+#my-tooltip > div{
+  z-index: 9999 !important; /* Use a high value and !important */
+  transform: translateZ(0);
+}
